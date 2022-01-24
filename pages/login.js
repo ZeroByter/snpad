@@ -20,7 +20,7 @@ export default function LoginPage() {
     const handleFormSubmit = async e => {
         e.preventDefault()
 
-        const rawResponse = await fetch("http://localhost:3000/api/login", {
+        const rawResponse = await fetch("/api/login", {
             "headers": {},
             "body": JSON.stringify({
                 username: usernameRef.current,

@@ -24,7 +24,7 @@ export default function NewText() {
             title = titleRef.current.value
         }
 
-        const rawResponse = await fetch("http://localhost:3000/api/texts/create", {
+        const rawResponse = await fetch("/api/texts/create", {
             "headers": {},
             "body": JSON.stringify({
                 title,

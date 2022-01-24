@@ -22,7 +22,7 @@ export default function Decrypted({ id, text, title, titleEncrypted, password })
             finalTitle = titleRef.current.value
         }
 
-        const rawResponse = await fetch("http://localhost:3000/api/texts/update", {
+        const rawResponse = await fetch("/api/texts/update", {
             "headers": {},
             "body": JSON.stringify({
                 id,
