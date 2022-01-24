@@ -9,20 +9,21 @@ export default class TextsSQL {
     }
 
     static async getAllByUserId(userId) {
-        return await psqlQuery("SELECT id, title, titleencrypted FROM texts WHERE userid=$1 ORDER BY timecreated DESC", [userId])
+        return await psqlQuery("SELECT id, title, titleencrypted, titlehint FROM texts WHERE userid=$1 ORDER BY timecreated DESC", [userId])
     }
 
-    static async update(id, data, title, encryptTitle) {
+    static async update(id, data, title, encryptTitle, titleHint) {
         await psqlUpdate("texts", {
             data,
             title,
-            titleencrypted: encryptTitle
+            titleencrypted: encryptTitle,
+            titleHint
         }, {
             id
         })
     }
 
-    static async create(userId, data, title, encryptTitle) {
+    static async create(userId, data, title, encryptTitle, titleHint) {
         const newId = randomId()
 
         await psqlInsert("texts", {
@@ -32,7 +33,8 @@ export default class TextsSQL {
             data,
             timecreated: Date.now(),
             title,
-            titleencrypted: encryptTitle
+            titleencrypted: encryptTitle,
+            titleHint
         })
 
         return newId

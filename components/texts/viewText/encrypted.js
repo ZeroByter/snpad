@@ -6,15 +6,17 @@ export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypt
 
     const passwordRef = useRef()
 
-    const handleDecrypt = () => {
+    const handleOnSubmit = e => {
+        e.preventDefault()
+
         try {
             const decryptedText = cryptoJs.AES.decrypt(rawData, passwordRef.current.value).toString(cryptoJs.enc.Utf8)
 
             if (decryptedText.length != 0) {
                 let title
-                if(titleEncrypted){
+                if (titleEncrypted) {
                     title = cryptoJs.AES.decrypt(rawTitle, passwordRef.current.value).toString(cryptoJs.enc.Utf8)
-                }else{
+                } else {
                     title = rawTitle
                 }
 
@@ -30,7 +32,9 @@ export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypt
     return (
         <div>
             <div>
-                password: <input ref={passwordRef} type="password" /> <button onClick={handleDecrypt}>decrypt</button>
+                <form onSubmit={handleOnSubmit}>
+                    password: <input required ref={passwordRef} type="password" /> <button>decrypt</button>
+                </form>
             </div>
             <div>{message}</div>
         </div>

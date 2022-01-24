@@ -1,6 +1,6 @@
 import Link from "next/link";
 import crypto from "crypto"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Router from "next/router";
 
 export default function LoginPage() {
@@ -8,6 +8,14 @@ export default function LoginPage() {
 
     const usernameRef = useRef("")
     const passwordRef = useRef("")
+
+    const navTimeoutRef = useRef()
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(navTimeoutRef.current)
+        }
+    }, [])
 
     const handleUsernameChange = e => {
         usernameRef.current = e.target.value
@@ -33,7 +41,7 @@ export default function LoginPage() {
         if (response == "success") {
             setMessage("logged in! Redirecting in three seconds")
 
-            setTimeout(() => {
+            navTimeoutRef.current = setTimeout(() => {
                 Router.push("/")
             }, 3000)
         }else{

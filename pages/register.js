@@ -1,13 +1,21 @@
 import Link from "next/link";
 import Router from "next/router"
 import crypto from "crypto"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function LoginPage() {
     const [message, setMessage] = useState(null)
 
     const usernameRef = useRef("")
     const passwordRef = useRef("")
+
+    const navTimeoutRef = useRef()
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(navTimeoutRef.current)
+        }
+    }, [])
 
     const handleUsernameChange = e => {
         usernameRef.current = e.target.value
@@ -33,7 +41,7 @@ export default function LoginPage() {
         if (response == "success") {
             setMessage("Account successfully created, loggin you in and redirecting in three seconds")
 
-            setTimeout(() => {
+            navTimeoutRef.current = setTimeout(() => {
                 Router.push("/")
             }, 3000)
         }

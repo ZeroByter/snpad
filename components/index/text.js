@@ -32,8 +32,8 @@ export default function Text({ text }) {
         let renderTitle
         let renderDecryptLink
         if (decryptedTitle == null) {
-            renderTitle = "[title encrypted]"
-            renderDecryptLink = <a href="#" onClick={handleDecryptTitle}>decrypt title</a>
+            renderTitle = `${text.titlehint} [title encrypted]`
+            // renderDecryptLink = <a href="#" onClick={handleDecryptTitle}>decrypt title</a>
         } else {
             renderTitle = decryptedTitle
         }

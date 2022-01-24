@@ -20,12 +20,13 @@ export async function getServerSideProps(context) {
             id,
             rawData: text.data,
             rawTitle: text.title,
+            titleHint: text.titlehint,
             titleEncrypted: text.titleencrypted
         }
     }
 }
 
-export default function ViewText({ id, rawData, rawTitle, titleEncrypted }) {
+export default function ViewText({ id, rawData, rawTitle, titleHint, titleEncrypted }) {
     const [decrypted, setDecrypted] = useState(false)
     const [text, setText] = useState()
     const [title, setTitle] = useState()
@@ -41,7 +42,7 @@ export default function ViewText({ id, rawData, rawTitle, titleEncrypted }) {
 
     let renderedContents
     if (decrypted) {
-        renderedContents = <Decrypted id={id} text={text} title={title} titleEncrypted={titleEncrypted} password={password} />
+        renderedContents = <Decrypted id={id} text={text} title={title} titleHint={titleHint} titleEncrypted={titleEncrypted} password={password} />
     } else {
         renderedContents = <Encrypted rawData={rawData} rawTitle={rawTitle} titleEncrypted={titleEncrypted} onDecrypted={handleDecrypted} />
     }
