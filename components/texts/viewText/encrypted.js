@@ -1,0 +1,38 @@
+import cryptoJs from "crypto-js"
+import { useRef, useState } from "react"
+
+export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypted }) {
+    const [message, setMessage] = useState("")
+
+    const passwordRef = useRef()
+
+    const handleDecrypt = () => {
+        try {
+            const decryptedText = cryptoJs.AES.decrypt(rawData, passwordRef.current.value).toString(cryptoJs.enc.Utf8)
+
+            if (decryptedText.length != 0) {
+                let title
+                if(titleEncrypted){
+                    title = cryptoJs.AES.decrypt(rawTitle, passwordRef.current.value).toString(cryptoJs.enc.Utf8)
+                }else{
+                    title = rawTitle
+                }
+
+                onDecrypted(decryptedText, title, passwordRef.current.value)
+            } else {
+                setMessage("wrong password, please try again")
+            }
+        } catch {
+            setMessage("wrong password, please try again")
+        }
+    }
+
+    return (
+        <div>
+            <div>
+                password: <input ref={passwordRef} type="password" /> <button onClick={handleDecrypt}>decrypt</button>
+            </div>
+            <div>{message}</div>
+        </div>
+    )
+}
