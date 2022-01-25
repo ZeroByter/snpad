@@ -1,10 +1,16 @@
 import cryptoJs from "crypto-js"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypted }) {
+export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypted, incorrectDefaultPassword }) {
     const [message, setMessage] = useState("")
 
     const passwordRef = useRef()
+
+    useEffect(() => {
+        if(incorrectDefaultPassword){
+            setMessage("wrong password, please try again")
+        }
+    }, [incorrectDefaultPassword])
 
     const handleOnSubmit = e => {
         e.preventDefault()

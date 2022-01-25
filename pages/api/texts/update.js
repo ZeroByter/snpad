@@ -45,6 +45,14 @@ export default async function handle(req, res) {
         return
     }
 
+    const text = await TextsSQL.getById(req.body.id)
+    if(text.userid != session.id){
+        res.send({
+            error: "only owner of text can update it"
+        })
+        return
+    }
+
     const newId = await TextsSQL.update(req.body.id, req.body.data, req.body.title, req.body.encryptTitle, req.body.titleHint)
 
     res.send({

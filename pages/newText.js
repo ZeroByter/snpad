@@ -52,7 +52,7 @@ export default function NewText() {
             setMessage("created text, redirecting in two seconds")
 
             navTimeoutRef.current = setTimeout(() => {
-                Router.push("/text/" + response.newId)
+                Router.push("/text/" + response.newId + "#" + passwordRef.current.value)
             }, 2000)
         } else {
             setMessage(response.error)
