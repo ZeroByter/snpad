@@ -1,5 +1,6 @@
 import cryptoJs from "crypto-js"
 import { useEffect, useRef, useState } from "react"
+import attemptDecrypt from "../../../clientlib/attempt-decrypt"
 
 export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypted, incorrectDefaultPassword }) {
     const [message, setMessage] = useState("")
@@ -7,7 +8,7 @@ export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypt
     const passwordRef = useRef()
 
     useEffect(() => {
-        if(incorrectDefaultPassword){
+        if (incorrectDefaultPassword) {
             setMessage("wrong password, please try again")
         }
     }, [incorrectDefaultPassword])
@@ -15,22 +16,10 @@ export default function Encrypted({ rawData, rawTitle, titleEncrypted, onDecrypt
     const handleOnSubmit = e => {
         e.preventDefault()
 
-        try {
-            const decryptedText = cryptoJs.AES.decrypt(rawData, passwordRef.current.value).toString(cryptoJs.enc.Utf8)
-
-            if (decryptedText.length != 0) {
-                let title
-                if (titleEncrypted) {
-                    title = cryptoJs.AES.decrypt(rawTitle, passwordRef.current.value).toString(cryptoJs.enc.Utf8)
-                } else {
-                    title = rawTitle
-                }
-
-                onDecrypted(decryptedText, title, passwordRef.current.value)
-            } else {
-                setMessage("wrong password, please try again")
-            }
-        } catch {
+        var decryptedData = attemptDecrypt(passwordRef.current.value, rawData, titleEncrypted, rawTitle)
+        if (decryptedData != null) {
+            onDecrypted(decryptedData.decryptedText, decryptedData.title, passwordRef.current.value)
+        } else {
             setMessage("wrong password, please try again")
         }
     }

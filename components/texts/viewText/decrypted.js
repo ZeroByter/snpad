@@ -1,6 +1,7 @@
 import cryptoJs from "crypto-js"
 import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react"
+import { randomId } from "../../../sharedlib/essentials"
 import css from "./decrypted.module.scss"
 
 export default function Decrypted({ readOnly, id, text, title, titleHint, titleEncrypted, password }) {
@@ -27,7 +28,8 @@ export default function Decrypted({ readOnly, id, text, title, titleHint, titleE
     const handleOnSubmit = async e => {
         e.preventDefault()
 
-        const encryptedText = cryptoJs.AES.encrypt(textareaRef.current.value, passwordRef.current.value).toString()
+        const randomValue = randomId(5)
+        const encryptedText = cryptoJs.AES.encrypt(randomValue + textareaRef.current.value + randomValue, passwordRef.current.value).toString()
 
         let finalTitle
         if (encryptTitleRef.current.checked) {

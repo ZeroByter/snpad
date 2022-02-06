@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import css from "./newText.module.scss"
 import CryptoJS from "crypto-js"
+import { randomId } from "../sharedlib/essentials"
 
 export default function NewText() {
     const titleRef = useRef()
@@ -27,7 +28,8 @@ export default function NewText() {
     const handleFormSubmit = async e => {
         e.preventDefault()
 
-        const encryptedText = CryptoJS.AES.encrypt(textRef.current.value, passwordRef.current.value).toString()
+        const randomValue = randomId(5)
+        const encryptedText = CryptoJS.AES.encrypt(randomValue + textRef.current.value + randomValue, passwordRef.current.value).toString()
         let title
         if (encryptTitleRef.current.checked) {
             title = CryptoJS.AES.encrypt(titleRef.current.value, passwordRef.current.value).toString()
@@ -62,7 +64,7 @@ export default function NewText() {
     let renderTitleHintInput
     if(viewTitleHint){
         renderTitleHintInput = (
-            <div>title hint: <input ref={titleHintRef} /> <span title="when your title is encrypted, this will be title shown instead">[?]</span></div>
+            <div>title hint: <input ref={titleHintRef} /> <span title="when your title is encrypted, this will be the title shown instead">[?]</span></div>
         )
     }
 
