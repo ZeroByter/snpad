@@ -23,6 +23,10 @@ export default class TextsSQL {
         })
     }
 
+    static async delete(id) {
+        await psqlQuery("DELETE FROM texts WHERE id=$1", [id])
+    }
+
     static async create(userId, data, title, encryptTitle, titleHint) {
         const newId = randomId()
 

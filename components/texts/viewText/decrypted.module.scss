@@ -1,10 +1,17 @@
-.textarea{
+.textarea {
     min-width: 300px;
     min-height: 100px;
 }
 
-.passwordContainer{
-    &[data-visible="false"]{
+.passwordContainer,
+.deleteContainer {
+    &[data-visible="false"] {
         display: none;
+    }
+}
+
+.deleteContainer {
+    button{
+        color: red;
     }
 }

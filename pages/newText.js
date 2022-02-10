@@ -15,6 +15,8 @@ export default function NewText() {
 
     const navTimeoutRef = useRef()
 
+    const startedCreationRef = useRef(false)
+
     const [viewTitleHint, setViewTitleHint] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [message, setMessage] = useState("")
@@ -27,6 +29,9 @@ export default function NewText() {
 
     const handleFormSubmit = async e => {
         e.preventDefault()
+
+        if(startedCreationRef.current) return
+        startedCreationRef.current = true
 
         const randomValue = randomId(5)
         const encryptedText = CryptoJS.AES.encrypt(randomValue + textRef.current.value + randomValue, passwordRef.current.value).toString()
