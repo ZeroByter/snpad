@@ -13,5 +13,4 @@ export default async function handle(req, res) {
     res.setHeader('Set-Cookie', cookie)
 
     res.redirect("/")
-    res.send("")
 }
