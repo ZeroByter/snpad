@@ -17,3 +17,13 @@ CREATE TABLE public.users (
     timecreated numeric NOT NULL,
     FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE;
 );
+
+CREATE TABLE folders (
+    id character varying(16) NOT NULL PRIMARY KEY,
+    folderid character varying(16),
+    userid character varying(16) NOT NULL,
+    title text NOT NULL,
+    titleencrypted boolean NOT NULL,
+    titlehint text,
+    timecreated numeric NOT NULL
+);
