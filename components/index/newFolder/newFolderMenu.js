@@ -1,4 +1,5 @@
 import cryptoJs from "crypto-js"
+import { Router } from "next/router"
 import { useState, useRef } from "react"
 import css from "./newFolderMenu.module.scss"
 
@@ -21,7 +22,7 @@ export default function NewFolderMenu({ visible, onCreated }) {
             const randomValue = randomId(5)
             finalTitle = cryptoJs.AES.encrypt(randomValue + title + randomValue, titlePassword).toString()
         } else {
-            finalTitle = titleRef.current.value
+            finalTitle = title
         }
 
         const rawResponse = await fetch("/api/folders/create", {
@@ -39,13 +40,7 @@ export default function NewFolderMenu({ visible, onCreated }) {
         const response = await rawResponse.json()
 
         if (response.error == null) {
-            setMessage("created text, redirecting in two seconds")
-
-            navTimeoutRef.current = setTimeout(() => {
-                Router.replace("/text/" + response.newId + "#" + passwordRef.current.value)
-            }, 2000)
-        } else {
-            setMessage(response.error)
+            
         }
 
         setTitle("")
