@@ -1,4 +1,5 @@
 import { getLoginSession } from "../../../serverlib/auth"
+import FoldersSQL from "../../../serverlib/sql-classes/folders"
 
 export default async function handle(req, res){
     const session = await getLoginSession(req)
@@ -10,12 +11,6 @@ export default async function handle(req, res){
         return
     }
 
-    if(req.body.parent == null){
-        res.send({
-            error: "parent is missing"
-        })
-        return
-    }
     if(req.body.title == null){
         res.send({
             error: "title is missing"
@@ -35,12 +30,12 @@ export default async function handle(req, res){
         return
     }
 
-    //const newId = await TextsSQL.create(session.id, req.body.data, req.body.title, req.body.encryptTitle, req.body.titleHint)
+    const newId = await FoldersSQL.create(session.id, req.body.parent, req.body.title, req.body.encryptTitle, req.body.titleHint)
 
-    //TODO: Create new folder here
-    //TODO: return list of folders in response
+    const folders = await FoldersSQL.getAllInParent(session.id, req.body.parent)
 
     res.send({
-        
+        error: null,
+        folders
     })
 }

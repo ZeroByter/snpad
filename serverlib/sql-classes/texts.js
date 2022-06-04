@@ -1,4 +1,3 @@
-import crypto from "crypto"
 import { randomId } from "../../sharedlib/essentials"
 import psqlQuery, { psqlInsert, psqlUpdate } from "../psql-conn.js"
 
@@ -8,8 +7,12 @@ export default class TextsSQL {
         return data[0]
     }
 
-    static async getAllByUserId(userId) {
-        return await psqlQuery("SELECT id, title, titleencrypted, titlehint FROM texts WHERE userid=$1 ORDER BY timecreated DESC", [userId])
+    static async getAllInParent(userId, parentId) {
+        if (parentId == null) {
+            return await psqlQuery("SELECT id, title, titleencrypted, titlehint FROM texts WHERE userid=$1 and folderid is null ORDER BY timecreated DESC", [userId])
+        } else {
+            return await psqlQuery("SELECT id, title, titleencrypted, titlehint FROM texts WHERE userid=$1 and folderid=$2 ORDER BY timecreated DESC", [userId, parentId])
+        }
     }
 
     static async update(id, data, title, encryptTitle, titleHint) {

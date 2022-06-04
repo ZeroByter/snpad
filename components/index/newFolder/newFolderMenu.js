@@ -1,9 +1,12 @@
 import cryptoJs from "crypto-js"
-import { Router } from "next/router"
+import { useRouter } from "next/router"
 import { useState, useRef } from "react"
+import { randomId } from "../../../sharedlib/essentials"
 import css from "./newFolderMenu.module.scss"
 
 export default function NewFolderMenu({ visible, onCreated }) {
+    const router = useRouter()
+
     const startedCreationRef = useRef(false)
 
     const [title, setTitle] = useState("")
@@ -30,7 +33,7 @@ export default function NewFolderMenu({ visible, onCreated }) {
                 "content-type": "application/json"
             },
             "body": JSON.stringify({
-                parent: null,
+                parent: router.query.id,
                 title,
                 titleHint,
                 encryptTitle,

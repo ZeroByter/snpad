@@ -1,4 +1,3 @@
-import cryptoJs from "crypto-js"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import attemptDecrypt from "../../clientlib/attempt-decrypt"
