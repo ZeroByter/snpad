@@ -30,12 +30,12 @@ export default class TextsSQL {
         await psqlQuery("DELETE FROM texts WHERE id=$1", [id])
     }
 
-    static async create(userId, data, title, encryptTitle, titleHint) {
+    static async create(userId, data, title, encryptTitle, titleHint, folderId) {
         const newId = randomId()
 
         await psqlInsert("texts", {
             id: newId,
-            folderid: null,
+            folderId,
             userid: userId,
             data,
             timecreated: Date.now(),

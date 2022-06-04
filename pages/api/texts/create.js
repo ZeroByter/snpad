@@ -39,7 +39,7 @@ export default async function handle(req, res) {
         return
     }
 
-    const newId = await TextsSQL.create(session.id, req.body.data, req.body.title, req.body.encryptTitle, req.body.titleHint)
+    const newId = await TextsSQL.create(session.id, req.body.data, req.body.title, req.body.encryptTitle, req.body.titleHint, req.body.folderId)
 
     res.send({
         error: null,

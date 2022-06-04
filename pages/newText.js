@@ -42,9 +42,16 @@ export default function NewText() {
             title = titleRef.current.value
         }
 
+        let folderId = window.location.hash.slice(1)
+        if(folderId == ""){
+            folderId = null
+        }
+
         const rawResponse = await fetch("/api/texts/create", {
             "headers": {},
             "body": JSON.stringify({
+                folderId: window.location.hash.slice(1),
+
                 title,
                 titleHint: titleHintRef.current?.value,
                 encryptTitle: encryptTitleRef.current.checked,
