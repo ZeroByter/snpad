@@ -1,6 +1,7 @@
 import cryptoJs from "crypto-js";
 import Link from "next/link";
 import { useState } from "react";
+import MoveToFolderButton from "./moveToFolder/moveToFolderButton"
 
 export default function Text({ text }) {
     const [decryptedTitle, setDecryptedTitle] = useState(null)
@@ -38,8 +39,8 @@ export default function Text({ text }) {
             renderTitle = decryptedTitle
         }
 
-        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - <button>move</button></div>
+        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - <MoveToFolderButton /></div>
     } else {
-        return <div><Link href={`/text/${text.id}`}>{text.title}</Link> - <button>move</button></div>
+        return <div><Link href={`/text/${text.id}`}>{text.title}</Link> - <MoveToFolderButton /></div>
     }
 }

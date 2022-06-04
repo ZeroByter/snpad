@@ -10,20 +10,6 @@
     transform: translateX(calc(100% + 15px));
     z-index: 1;
 
-    .encryptTitleContainer{
-        margin-left: 6px;
-    }
-
-    .encryptionContainer{
-        label{
-            display: block;
-        }
-
-        &[data-visible="false"]{
-            display: none;
-        }
-    }
-
     &[data-visible="false"]{
         display: none;
     }
