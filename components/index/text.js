@@ -38,8 +38,8 @@ export default function Text({ text }) {
             renderTitle = decryptedTitle
         }
 
-        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink}</div>
+        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - <button>move</button></div>
     } else {
-        return <div><Link href={`/text/${text.id}`}>{text.title}</Link></div>
+        return <div><Link href={`/text/${text.id}`}>{text.title}</Link> - <button>move</button></div>
     }
 }

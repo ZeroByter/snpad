@@ -1,5 +1,6 @@
 import { getLoginSession } from "../../../serverlib/auth"
 import TextsSQL from "../../../serverlib/sql-classes/texts"
+import FoldersSql from "../../../serverlib/sql-classes/folders"
 
 export default async function handle(req, res) {
     const session = await getLoginSession(req)
@@ -37,6 +38,24 @@ export default async function handle(req, res) {
             error: "data is missing"
         })
         return
+    }
+
+    if(req.body.folderId != null){
+        const folder = await FoldersSql.getById(req.body.folderId)
+
+        if(folder == null){
+            res.send({
+                error: "folderId is not a valid folder"
+            })
+            return
+        }
+
+        if(folder.userid != session.id){
+            res.send({
+                error: "cant create text inside folder that is not yours"
+            })
+            return
+        }
     }
 
     const newId = await TextsSQL.create(session.id, req.body.data, req.body.title, req.body.encryptTitle, req.body.titleHint, req.body.folderId)

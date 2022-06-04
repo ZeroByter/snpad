@@ -50,7 +50,7 @@ export default function NewText() {
         const rawResponse = await fetch("/api/texts/create", {
             "headers": {},
             "body": JSON.stringify({
-                folderId: window.location.hash.slice(1),
+                folderId: folderId,
 
                 title,
                 titleHint: titleHintRef.current?.value,
@@ -69,6 +69,7 @@ export default function NewText() {
                 Router.replace("/text/" + response.newId + "#" + passwordRef.current.value)
             }, 2000)
         } else {
+            startedCreationRef.current = false
             setMessage(response.error)
         }
     }
