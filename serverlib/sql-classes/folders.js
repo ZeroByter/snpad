@@ -15,6 +15,12 @@ export default class FoldersSQL {
         }
     }
 
+    static async getSearch(userId, search){
+        search = `%${search}%`
+
+        return await psqlQuery("SELECT id, (CASE WHEN titleencrypted THEN titlehint ELSE title END) as title FROM folders WHERE userid=$1 AND (CASE WHEN titleencrypted THEN titlehint LIKE $2 ELSE title LIKE $2 END) LIMIT 5", [userId, search])
+    }
+
     static async update(id, title, encryptTitle, titleHint) {
         await psqlUpdate("folders", {
             title,

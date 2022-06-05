@@ -2,7 +2,7 @@ import MoveToFolderMenu from "./moveToFolderMenu";
 import css from "./moveToFolderButton.module.scss"
 import { useState } from "react";
 
-export default function moveToFolderButton(){
+export default function moveToFolderButton({ isText, itemId }){
     const [showMenu, setShowMenu] = useState(false)
 
     const handleClick = () => {
@@ -12,7 +12,7 @@ export default function moveToFolderButton(){
     return (
         <span className={css.container}>
             <button onClick={handleClick}>move</button>
-            <MoveToFolderMenu visible={showMenu} onCreated={()=>setShowMenu(false)} />
+            <MoveToFolderMenu visible={showMenu} onMoved={()=>setShowMenu(false)} isText={isText} itemId={itemId} />
         </span>
     )
 }

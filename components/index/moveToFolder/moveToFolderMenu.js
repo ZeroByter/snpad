@@ -1,68 +1,82 @@
-import cryptoJs from "crypto-js"
 import { useRouter } from "next/router"
-import { useState, useRef } from "react"
-import { randomId } from "../../../sharedlib/essentials"
+import { useState, useEffect, useRef } from "react"
 import css from "./moveToFolderMenu.module.scss"
+import SelectMoveFolder from "./selectFolder"
 
-export default function moveToFolderMenu({ visible, onCreated }) {
+export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
     const router = useRouter()
 
-    const startedCreationRef = useRef(false)
+    const searchDebounceTimeoutRef = useRef(-1)
 
-    const [title, setTitle] = useState("")
-    const [encryptTitle, setEncryptTitle] = useState(false)
-    const [titleHint, setTitleHint] = useState("")
-    const [titlePassword, setTitlePassword] = useState("")
+    const [folders, setFolders] = useState([])
+    const [search, setSearch] = useState("")
 
-    const handleCreate = async e => {
-        e.preventDefault()
+    useEffect(() => {
+        if (visible) fetchFolders()
+    }, [visible])
 
-        if (startedCreationRef.current) return
-        startedCreationRef.current = true
+    useEffect(() => {
+        if (!visible) return
 
-        let finalTitle
-        if (encryptTitle) {
-            const randomValue = randomId(5)
-            finalTitle = cryptoJs.AES.encrypt(randomValue + title + randomValue, titlePassword).toString()
-        } else {
-            finalTitle = title
+        clearTimeout(searchDebounceTimeoutRef.current)
+        searchDebounceTimeoutRef.current = setTimeout(fetchFolders, 300)
+    }, [search])
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(searchDebounceTimeoutRef.current)
         }
+    }, [])
 
-        const rawResponse = await fetch("/api/folders/create", {
+    const fetchFolders = async () => {
+        const rawResponse = await fetch(`/api/folders/search?${new URLSearchParams({ search }).toString()}`, {
+            "headers": {
+                "content-type": "application/json"
+            },
+            "method": "GET"
+        });
+        const response = await rawResponse.json()
+
+        if (response.error == null) {
+            setFolders(response.folders)
+        }
+    }
+
+    const handleFolderSelect = async (folderId) => {
+        const url = isText ? "/api/texts/move" : "/api/folders/move"
+
+        const rawResponse = await fetch(url, {
             "headers": {
                 "content-type": "application/json"
             },
             "body": JSON.stringify({
-                parent: router.query.id,
-                title,
-                titleHint,
-                encryptTitle,
+                itemId,
+                newParentId: folderId
             }),
             "method": "POST"
         });
         const response = await rawResponse.json()
 
         if (response.error == null) {
-
+            //console.log(response.newTexts)
+            onMoved()
         }
-
-        setTitle("")
-        setEncryptTitle(false)
-        setTitleHint("")
-        setTitlePassword("")
-
-        onCreated()
     }
+
+    const renderFolders = folders.map(folder => {
+        return <SelectMoveFolder key={folder.id} onClick={handleFolderSelect} folder={folder} />
+    })
 
     return (
         <div className={css.container} data-visible={visible}>
             <div>move to new folder</div>
             <div>
-                <input placeholder="search" />
+                <input placeholder="search" onChange={e => setSearch(e.target.value)} />
             </div>
             <div>
-                ... all user folders would appear here
+                <SelectMoveFolder onClick={handleFolderSelect} folder={{ id: null, title: "root" }} />
+                {renderFolders}
             </div>
-        </div >
+        </div>
     )
 }

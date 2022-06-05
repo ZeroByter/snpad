@@ -26,6 +26,14 @@ export default class TextsSQL {
         })
     }
 
+    static async move(itemId, newParentId) {
+        await psqlUpdate("texts", {
+            folderid: newParentId
+        }, {
+            id: itemId
+        })
+    }
+
     static async delete(id) {
         await psqlQuery("DELETE FROM texts WHERE id=$1", [id])
     }

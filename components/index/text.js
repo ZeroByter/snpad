@@ -29,6 +29,8 @@ export default function Text({ text }) {
         }
     }
 
+    const moveToFolderButton = <MoveToFolderButton isText={true} itemId={text.id} />
+
     if (text.titleencrypted) {
         let renderTitle
         let renderDecryptLink
@@ -39,8 +41,8 @@ export default function Text({ text }) {
             renderTitle = decryptedTitle
         }
 
-        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - <MoveToFolderButton /></div>
+        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - {moveToFolderButton}</div>
     } else {
-        return <div><Link href={`/text/${text.id}`}>{text.title}</Link> - <MoveToFolderButton /></div>
+        return <div><Link href={`/text/${text.id}`}>{text.title}</Link> - {moveToFolderButton}</div>
     }
 }

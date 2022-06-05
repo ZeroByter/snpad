@@ -34,7 +34,7 @@ export default function NewFolderMenu({ visible, onCreated }) {
             },
             "body": JSON.stringify({
                 parent: router.query.id,
-                title,
+                title: finalTitle,
                 titleHint,
                 encryptTitle,
             }),
