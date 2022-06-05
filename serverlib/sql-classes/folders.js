@@ -31,6 +31,14 @@ export default class FoldersSQL {
         })
     }
 
+    static async move(id, newParentId) {
+        await psqlUpdate("folders", {
+            folderid: newParentId
+        }, {
+            id
+        })
+    }
+
     static async delete(id) {
         await psqlQuery("DELETE FROM folders WHERE id=$1", [id])
     }

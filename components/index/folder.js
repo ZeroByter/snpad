@@ -1,6 +1,7 @@
 import cryptoJs from "crypto-js";
 import Link from "next/link";
 import { useState } from "react";
+import MoveToFolderButton from "./moveToFolder/moveToFolderButton"
 
 export default function Folder({ folder }) {
     const [decryptedTitle, setDecryptedTitle] = useState(null)
@@ -28,6 +29,8 @@ export default function Folder({ folder }) {
         }
     }
 
+    const moveToFolderButton = <MoveToFolderButton isText={false} itemId={folder.id} />
+
     if (folder.titleencrypted) {
         let renderTitle
         let renderDecryptLink
@@ -38,16 +41,16 @@ export default function Folder({ folder }) {
             renderTitle = decryptedTitle
         }
 
-        return <div><i><Link href={`/folder/${folder.id}`}>{renderTitle}</Link></i> {renderDecryptLink}</div>
+        return <div><i><Link href={`/folder/${folder.id}`}>{renderTitle}</Link></i> {renderDecryptLink} - {moveToFolderButton}</div>
     } else {
         if (folder.id == "goback") {
             if (folder.folderid == null) {
-                return <div><i><Link href={`/folder/${folder.id}`}>{folder.title}</Link></i></div>
+                return <div><i><Link href={`/folder/${folder.id}`}>{folder.title}</Link></i> - {moveToFolderButton}</div>
             } else {
-                return <div><i><Link href={`/folder/${folder.id}`}>{folder.title}</Link></i></div>
+                return <div><i><Link href={`/folder/${folder.id}`}>{folder.title}</Link></i> - {moveToFolderButton}</div>
             }
         } else {
-            return <div><i><Link href={`/folder/${folder.id}`}>{folder.title}</Link></i></div>
+            return <div><i><Link href={`/folder/${folder.id}`}>{folder.title}</Link></i> - {moveToFolderButton}</div>
         }
     }
 }

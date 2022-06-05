@@ -60,16 +60,27 @@ export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
         if (response.error == null) {
             onMoved()
 
-            ssrFetcher.setProps(oldState => {
-                return {
-                    ...oldState,
-                    texts: response.newTexts
-                }
-            })
+            if (isText) {
+                ssrFetcher.setProps(oldState => {
+                    return {
+                        ...oldState,
+                        texts: response.newTexts
+                    }
+                })
+            } else {
+                ssrFetcher.setProps(oldState => {
+                    return {
+                        ...oldState,
+                        folders: response.newFolders
+                    }
+                })
+            }
         }
     }
 
     const renderFolders = folders.map(folder => {
+        if(!isText && itemId == folder.id) return null
+
         return <SelectMoveFolder key={folder.id} onClick={handleFolderSelect} folder={folder} />
     })
 
