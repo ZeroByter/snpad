@@ -1,3 +1,4 @@
+import { useSSRFetcher } from "../../components/contexts/ssrFetcher"
 import Header from "../../components/index/header"
 import LoggedIn from "../../components/index/loggedIn"
 import { getLoginSession } from "../../serverlib/auth"
@@ -34,7 +35,10 @@ export async function getServerSideProps(context) {
 	}
 }
 
-export default function IndexPage({ username, texts, folders, parentFolderId }) {
+export default function IndexPage() {
+	const ssrFetcher = useSSRFetcher()
+	const { username, texts, folders, parentFolderId } = ssrFetcher.props
+
 	let contents
 	if(username != null){
 		contents = <LoggedIn texts={texts} isRootFolder={false} folders={folders} parentFolderId={parentFolderId} />
