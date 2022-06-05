@@ -1,10 +1,10 @@
-import { useRouter } from "next/router"
 import { useState, useEffect, useRef } from "react"
+import { useSSRFetcher } from "../../contexts/ssrFetcher"
 import css from "./moveToFolderMenu.module.scss"
 import SelectMoveFolder from "./selectFolder"
 
 export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
-    const router = useRouter()
+    const ssrFetcher = useSSRFetcher()
 
     const searchDebounceTimeoutRef = useRef(-1)
 
@@ -58,8 +58,14 @@ export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
         const response = await rawResponse.json()
 
         if (response.error == null) {
-            //console.log(response.newTexts)
             onMoved()
+
+            ssrFetcher.setProps(oldState => {
+                return {
+                    ...oldState,
+                    texts: response.newTexts
+                }
+            })
         }
     }
 
