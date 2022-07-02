@@ -43,16 +43,9 @@ export default async function handle(req, res) {
     if(req.body.folderId != null){
         const folder = await FoldersSql.getById(req.body.folderId)
 
-        if(folder == null){
+        if(folder == null || folder.userid != session.id){
             res.send({
                 error: "folderId is not a valid folder"
-            })
-            return
-        }
-
-        if(folder.userid != session.id){
-            res.send({
-                error: "cant create text inside folder that is not yours"
             })
             return
         }

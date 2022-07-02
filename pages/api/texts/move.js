@@ -38,16 +38,9 @@ export default async function handle(req, res) {
 
     if (newParentId != null) {
         const folder = await FoldersSQL.getById(newParentId)
-        if (folder == null) {
+        if (folder == null || folder.userid != session.id) {
             res.send({
                 error: "folder doesn't exist"
-            })
-            return
-        }
-
-        if (folder.userid != session.id) {
-            res.send({
-                error: "only owner of folder can move to it"
             })
             return
         }

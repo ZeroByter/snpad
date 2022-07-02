@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import { randomId } from "../../../sharedlib/essentials"
 import css from "./newFolderMenu.module.scss"
 
-export default function NewFolderMenu({ visible, onCreated }) {
+export default function NewFolderMenu({ visible, onCreated, existingFolder }) {
     const router = useRouter()
 
     const startedCreationRef = useRef(false)
@@ -28,36 +28,50 @@ export default function NewFolderMenu({ visible, onCreated }) {
             finalTitle = title
         }
 
-        const rawResponse = await fetch("/api/folders/create", {
-            "headers": {
-                "content-type": "application/json"
-            },
-            "body": JSON.stringify({
-                parent: router.query.id,
-                title: finalTitle,
-                titleHint,
-                encryptTitle,
-            }),
-            "method": "POST"
-        });
-        const response = await rawResponse.json()
-
-        if (response.error == null) {
-            
+        if (existingFolder != null) {
+            await fetch("/api/folders/rename", {
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "body": JSON.stringify({
+                    id: existingFolder.id,
+                    title: finalTitle,
+                    titleHint,
+                    encryptTitle,
+                }),
+                "method": "POST"
+            });
+        } else {
+            await fetch("/api/folders/create", {
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "body": JSON.stringify({
+                    parent: router.query.id,
+                    title: finalTitle,
+                    titleHint,
+                    encryptTitle,
+                }),
+                "method": "POST"
+            });
         }
+
+        const data = [finalTitle, encryptTitle, titleHint]
 
         setTitle("")
         setEncryptTitle(false)
         setTitleHint("")
         setTitlePassword("")
 
-        onCreated()
+        startedCreationRef.current = false
+
+        onCreated(...data)
     }
 
     return (
         <div className={css.container} data-visible={visible}>
             <form onSubmit={handleCreate}>
-                <div>create new folder</div>
+                <div>{existingFolder ? "rename folder" : "create new folder"}</div>
                 <div>
                     <div>
                         <label>title: <input required value={title} onChange={e => setTitle(e.target.value)} /></label>
@@ -68,7 +82,7 @@ export default function NewFolderMenu({ visible, onCreated }) {
                         <label>title password: <input type="password" value={titlePassword} onChange={e => setTitlePassword(e.target.value)} /></label>
                     </div>
                 </div>
-                <input type="submit" value="create" />
+                <input type="submit" value={existingFolder ? "rename" : "create"} />
             </form>
         </div >
     )

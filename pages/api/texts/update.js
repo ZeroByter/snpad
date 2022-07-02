@@ -46,16 +46,9 @@ export default async function handle(req, res) {
     }
 
     const text = await TextsSQL.getById(req.body.id)
-    if (text == null) {
+    if (text == null || text.userid != session.id) {
         res.send({
             error: "text doesn't exist"
-        })
-        return
-    }
-
-    if (text.userid != session.id) {
-        res.send({
-            error: "only owner of text can update it"
         })
         return
     }

@@ -33,16 +33,9 @@ export default async function handle(req, res){
     if(req.body.parent != null){
         const folder = await FoldersSql.getById(req.body.parent)
 
-        if(folder == null){
+        if(folder == null || folder.userid != session.id){
             res.send({
                 error: "parent is not a valid folder"
-            })
-            return
-        }
-
-        if(folder.userid != session.id){
-            res.send({
-                error: "cant create folder inside folder that is not yours"
             })
             return
         }
