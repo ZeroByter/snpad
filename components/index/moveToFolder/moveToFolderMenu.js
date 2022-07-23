@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { useSSRFetcher } from "../../contexts/ssrFetcher"
 import css from "./moveToFolderMenu.module.scss"
 import SelectMoveFolder from "./selectFolder"
 
-export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
+export default function MoveToFolderMenu({ visible, onMoved, isText, itemId }) {
     const ssrFetcher = useSSRFetcher()
 
     const searchDebounceTimeoutRef = useRef(-1)
@@ -11,24 +11,7 @@ export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
     const [folders, setFolders] = useState([])
     const [search, setSearch] = useState("")
 
-    useEffect(() => {
-        if (visible) fetchFolders()
-    }, [visible])
-
-    useEffect(() => {
-        if (!visible) return
-
-        clearTimeout(searchDebounceTimeoutRef.current)
-        searchDebounceTimeoutRef.current = setTimeout(fetchFolders, 300)
-    }, [search])
-
-    useEffect(() => {
-        return () => {
-            clearTimeout(searchDebounceTimeoutRef.current)
-        }
-    }, [])
-
-    const fetchFolders = async () => {
+    const fetchFolders = useCallback(async () => {
         const rawResponse = await fetch(`/api/folders/search?${new URLSearchParams({ search }).toString()}`, {
             "headers": {
                 "content-type": "application/json"
@@ -40,7 +23,24 @@ export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
         if (response.error == null) {
             setFolders(response.folders)
         }
-    }
+    }, [search])
+
+    useEffect(() => {
+        if (visible) fetchFolders()
+    }, [visible, fetchFolders])
+
+    useEffect(() => {
+        if (!visible) return
+
+        clearTimeout(searchDebounceTimeoutRef.current)
+        searchDebounceTimeoutRef.current = setTimeout(fetchFolders, 300)
+    }, [visible, search, fetchFolders])
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(searchDebounceTimeoutRef.current)
+        }
+    }, [])
 
     const handleFolderSelect = async (folderId) => {
         const url = isText ? "/api/texts/move" : "/api/folders/move"
@@ -79,7 +79,7 @@ export default function moveToFolderMenu({ visible, onMoved, isText, itemId }) {
     }
 
     const renderFolders = folders.map(folder => {
-        if(!isText && itemId == folder.id) return null
+        if (!isText && itemId == folder.id) return null
 
         return <SelectMoveFolder key={folder.id} onClick={handleFolderSelect} folder={folder} />
     })

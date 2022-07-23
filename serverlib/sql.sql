@@ -14,10 +14,11 @@ CREATE TABLE public.texts (
     title text NOT NULL,
     titleencrypted boolean NOT NULL,
     titlehint text,
-    FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(folderid) REFERENCES folders(id) ON DELETE CASCADEh
 );
 
-CREATE TABLE folders (
+CREATE TABLE public.folders (
     id character varying(16) NOT NULL PRIMARY KEY,
     folderid character varying(16),
     userid character varying(16) NOT NULL,
@@ -25,5 +26,6 @@ CREATE TABLE folders (
     titleencrypted boolean NOT NULL,
     titlehint text,
     timecreated numeric NOT NULL,
-    FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(folderid) REFERENCES folders(id) ON DELETE CASCADE
 );

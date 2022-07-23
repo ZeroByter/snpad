@@ -1,10 +1,13 @@
 import cryptoJs from "crypto-js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSSRFetcher } from "../contexts/ssrFetcher";
 import MoveToFolderButton from "./moveToFolder/moveToFolderButton"
 import NewFolderButton from "./newFolder/newFolderButton";
 
 export default function Folder({ folder }) {
+    const ssrFetcher = useSSRFetcher()
+
     const [folderState, setFolderState] = useState(folder)
     const [decryptedTitle, setDecryptedTitle] = useState(null)
 
@@ -46,9 +49,27 @@ export default function Folder({ folder }) {
         })
     }
 
-    const handleDelete = () => {
-        if(confirm("Are you sure you want to delete this folder forever?\nAll recursive items in this folder will be deleted forever!")){
-            //TODO: Send request to delete this folder, mysql referenced items will take care of deleteing all child items forever
+    const handleDelete = async () => {
+        if (confirm("Are you sure you want to delete this folder forever?\nAll recursive items in this folder will be destroyed forever!")) {
+            const rawResponse = await fetch("/api/folders/delete", {
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "body": JSON.stringify({
+                    id: folder.id
+                }),
+                "method": "POST"
+            });
+            const response = await rawResponse.json()
+
+            if (response.error == null) {
+                ssrFetcher.setProps(oldState => {
+                    return {
+                        ...oldState,
+                        folders: oldState.folders.filter(stateFolder => stateFolder.id != folder.id)
+                    }
+                })
+            }
         }
     }
 
