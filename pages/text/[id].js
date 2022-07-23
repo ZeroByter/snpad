@@ -54,6 +54,7 @@ export default function ViewText({ readOnly, id, rawData, rawTitle, titleHint, t
                 setIncorrectDefaultPassword(true)
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleDecrypted = (newText, newTitle, password) => {
