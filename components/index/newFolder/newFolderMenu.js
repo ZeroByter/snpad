@@ -28,6 +28,8 @@ export default function NewFolderMenu({ visible, onCreated, existingFolder }) {
             finalTitle = title
         }
 
+        let newFoldersList
+
         if (existingFolder != null) {
             await fetch("/api/folders/rename", {
                 "headers": {
@@ -42,7 +44,7 @@ export default function NewFolderMenu({ visible, onCreated, existingFolder }) {
                 "method": "POST"
             });
         } else {
-            await fetch("/api/folders/create", {
+            const rawResponse = await fetch("/api/folders/create", {
                 "headers": {
                     "content-type": "application/json"
                 },
@@ -54,9 +56,14 @@ export default function NewFolderMenu({ visible, onCreated, existingFolder }) {
                 }),
                 "method": "POST"
             });
+            const response = await rawResponse.json()
+
+            if (response.error == null) {
+                newFoldersList = response.folders
+            }
         }
 
-        const data = [finalTitle, encryptTitle, titleHint]
+        const data = [finalTitle, encryptTitle, titleHint, newFoldersList]
 
         setTitle("")
         setEncryptTitle(false)

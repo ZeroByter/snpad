@@ -9,9 +9,9 @@ export default function NewFolderButton({ existingFolder, onCreated }) {
         setShowMenu(!showMenu)
     }
 
-    const handleOnCreated = (title, encryptTitle, titleHint) => {
-        onCreated(title, encryptTitle, titleHint)
-        
+    const handleOnCreated = (title, encryptTitle, titleHint, newFolders) => {
+        onCreated(title, encryptTitle, titleHint, newFolders)
+
         setShowMenu(false)
     }
 
