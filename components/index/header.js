@@ -34,6 +34,9 @@ export default function Header({ username }) {
                     the website source code is <a href="https://github.com/ZeroByter/snpad" target="_blank" rel="noreferrer">available here.</a><br />
                     if you find any places to improve the app, security-related or not, feel free to open an issue/PR!
                 </p>
+                <p>
+                    public Trello board with some of my notes/tasks <a href="https://trello.com/b/tOaT1Q6z/secret-notepad" target="_blank" rel="noreferrer">can be found here.</a><br />
+                </p>
             </div>
             {userControls}
         </div>

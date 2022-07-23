@@ -42,9 +42,16 @@ export default function NewText() {
             title = titleRef.current.value
         }
 
+        let folderId = window.location.hash.slice(1)
+        if(folderId == ""){
+            folderId = null
+        }
+
         const rawResponse = await fetch("/api/texts/create", {
             "headers": {},
             "body": JSON.stringify({
+                folderId: folderId,
+
                 title,
                 titleHint: titleHintRef.current?.value,
                 encryptTitle: encryptTitleRef.current.checked,
@@ -62,6 +69,7 @@ export default function NewText() {
                 Router.replace("/text/" + response.newId + "#" + passwordRef.current.value)
             }, 2000)
         } else {
+            startedCreationRef.current = false
             setMessage(response.error)
         }
     }

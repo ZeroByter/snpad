@@ -39,11 +39,11 @@ export default function LoginPage() {
         const response = await rawResponse.text()
 
         if (response == "success") {
-            setMessage("logged in! Redirecting in three seconds")
+            setMessage("logged in! Redirecting in one seconds")
 
             navTimeoutRef.current = setTimeout(() => {
                 Router.push("/")
-            }, 3000)
+            }, 1000)
         }else{
             setMessage(response)
         }

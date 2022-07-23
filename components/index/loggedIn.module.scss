@@ -1,3 +1,18 @@
+.controlsContainer{
+    display: flex;
+    gap: 4px;
+
+    span{
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:active{
+            color: red;
+        }
+    }
+}
+
 .textsContainer{
     margin-top: 10px;
 }

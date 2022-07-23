@@ -1,0 +1,7 @@
+.container{
+    position: relative;
+
+    &[data-existingfolder="true"]{
+        display: inline;
+    }
+}

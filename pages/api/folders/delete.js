@@ -1,5 +1,5 @@
 import { getLoginSession } from "../../../serverlib/auth"
-import TextsSQL from "../../../serverlib/sql-classes/texts"
+import FoldersSQL from "../../../serverlib/sql-classes/folders"
 
 export default async function handle(req, res) {
     const session = await getLoginSession(req)
@@ -11,31 +11,24 @@ export default async function handle(req, res) {
         return
     }
 
-    try {
-        req.body = JSON.parse(req.body)
-    } catch {
-        res.status(400).send({
-            error: "Missing body / not JSON"
-        })
-        return
-    }
+    const { id } = req.body
 
-    if (req.body.id == null) {
+    if (id == null) {
         res.send({
             error: "id is missing"
         })
         return
     }
 
-    const text = await TextsSQL.getById(req.body.id)
-    if (text == null || text.userid != session.id) {
+    const folder = await FoldersSQL.getById(id)
+    if (folder == null || folder.userid != session.id) {
         res.send({
-            error: "text doesn't exist"
+            error: "folder doesn't exist"
         })
         return
     }
 
-    await TextsSQL.delete(req.body.id)
+    FoldersSQL.delete(id)
 
     res.send({
         error: null
