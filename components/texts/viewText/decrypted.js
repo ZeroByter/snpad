@@ -1,6 +1,7 @@
 import cryptoJs from "crypto-js"
 import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react"
+import { randomId } from "../../../sharedlib/essentials"
 import css from "./decrypted.module.scss"
 
 export default function Decrypted({ readOnly, id, text, title, titleHint, titleEncrypted, password }) {
@@ -27,7 +28,8 @@ export default function Decrypted({ readOnly, id, text, title, titleHint, titleE
     const handleOnSubmit = async e => {
         e.preventDefault()
 
-        const encryptedText = cryptoJs.AES.encrypt(textareaRef.current.value, passwordRef.current.value).toString()
+        const randomValue = randomId(5)
+        const encryptedText = cryptoJs.AES.encrypt(randomValue + textareaRef.current.value + randomValue, passwordRef.current.value).toString()
 
         let finalTitle
         if (encryptTitleRef.current.checked) {
@@ -60,8 +62,27 @@ export default function Decrypted({ readOnly, id, text, title, titleHint, titleE
         }
     }
 
+    const handleDelete = async () => {
+        if (confirm("are you sure you want to delete? This is irreversible!")) {
+            const rawResponse = await fetch("/api/texts/delete", {
+                "headers": {},
+                "body": JSON.stringify({
+                    id,
+                }),
+                "method": "POST"
+            });
+            const response = await rawResponse.json()
+
+            if (response.error == null) {
+                router.replace("/")
+            } else {
+                setMessage(response.error)
+            }
+        }
+    }
+
     let renderTitleHintInput
-    if(viewTitleHint){
+    if (viewTitleHint) {
         renderTitleHintInput = (
             <div>title hint: <input readOnly={readOnly} ref={titleHintRef} defaultValue={titleHint} /> <span title="when your title is encrypted, this will be title shown instead">[?]</span></div>
         )
@@ -76,6 +97,9 @@ export default function Decrypted({ readOnly, id, text, title, titleHint, titleE
                     <textarea readOnly={readOnly} required className={css.textarea} ref={textareaRef} defaultValue={text} />
                 </div>
                 <div className={css.passwordContainer} data-visible={!readOnly}>password: <input required type="password" ref={passwordRef} defaultValue={password} /> <button>update</button></div>
+                <div className={css.deleteContainer} data-visible={!readOnly}>
+                    <button type="button" onClick={handleDelete}>delete</button>
+                </div>
             </form>
             <div>{message}</div>
         </div>

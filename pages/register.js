@@ -44,6 +44,8 @@ export default function LoginPage() {
             navTimeoutRef.current = setTimeout(() => {
                 Router.push("/")
             }, 3000)
+        }else{
+            setMessage(response)
         }
     }
 

@@ -24,7 +24,8 @@ export async function getLoginSession(req) {
 
   // Validate the expiration date of the session
   if (Date.now() > expiresAt) {
-    throw new Error('Session expired')
+    return;
+    //throw new Error('Session expired')
   }
 
   return session

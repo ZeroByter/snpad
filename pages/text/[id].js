@@ -1,6 +1,6 @@
-import cryptoJs from "crypto-js"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import attemptDecrypt from "../../clientlib/attempt-decrypt"
 import Decrypted from "../../components/texts/viewText/decrypted"
 import Encrypted from "../../components/texts/viewText/encrypted"
 import { getLoginSession } from "../../serverlib/auth"
@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
 
     let readOnly = true
     const session = await getLoginSession(context.req)
-    if(session?.id != null){
+    if (session?.id != null) {
         readOnly = text.userid != session.id
     }
 
@@ -47,25 +47,14 @@ export default function ViewText({ readOnly, id, rawData, rawTitle, titleHint, t
         if (window.location.hash.length != 0) {
             let defaultPassword = window.location.hash.slice(1)
 
-            try {
-                const decryptedText = cryptoJs.AES.decrypt(rawData, defaultPassword).toString(cryptoJs.enc.Utf8)
-
-                if (decryptedText.length != 0) {
-                    let title
-                    if (titleEncrypted) {
-                        title = cryptoJs.AES.decrypt(rawTitle, defaultPassword).toString(cryptoJs.enc.Utf8)
-                    } else {
-                        title = rawTitle
-                    }
-
-                    handleDecrypted(decryptedText, title, defaultPassword)
-                } else {
-                    setIncorrectDefaultPassword(true)
-                }
-            } catch {
+            var decryptedData = attemptDecrypt(defaultPassword, rawData, titleEncrypted, rawTitle)
+            if (decryptedData != null) {
+                handleDecrypted(decryptedData.decryptedText, decryptedData.title, defaultPassword)
+            } else {
                 setIncorrectDefaultPassword(true)
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleDecrypted = (newText, newTitle, password) => {

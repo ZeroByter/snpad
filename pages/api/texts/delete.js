@@ -26,24 +26,6 @@ export default async function handle(req, res) {
         })
         return
     }
-    if (req.body.data == null) {
-        res.send({
-            error: "data is missing"
-        })
-        return
-    }
-    if (req.body.title == null) {
-        res.send({
-            error: "title is missing"
-        })
-        return
-    }
-    if (req.body.encryptTitle == null) {
-        res.send({
-            error: "encryptTitle is missing"
-        })
-        return
-    }
 
     const text = await TextsSQL.getById(req.body.id)
     if (text == null || text.userid != session.id) {
@@ -53,9 +35,9 @@ export default async function handle(req, res) {
         return
     }
 
-    await TextsSQL.update(req.body.id, req.body.data, req.body.title, req.body.encryptTitle, req.body.titleHint)
+    await TextsSQL.delete(req.body.id)
 
     res.send({
-        error: null,
+        error: null
     })
 }
