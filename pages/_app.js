@@ -1,5 +1,7 @@
 import Head from "next/head"
 import SSRFetcherProvider from "../components/contexts/ssrFetcher"
+import PrettyStyles from "../components/pretty/styles"
+import "../styles/global.scss"
 
 function MyApp({ Component, pageProps }) {
 	return (
@@ -9,7 +11,9 @@ function MyApp({ Component, pageProps }) {
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<SSRFetcherProvider pageProps={pageProps}>
-				<Component {...pageProps} />
+				<PrettyStyles>
+					<Component {...pageProps} />
+				</PrettyStyles>
 			</SSRFetcherProvider>
 		</>
 	)

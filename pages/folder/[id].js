@@ -13,16 +13,28 @@ export async function getServerSideProps(context) {
 	let texts = null
 	let folders = null
 
-    let parentFolderId = null
+	let parentFolderId = null
 
-	if(session?.id != null){
+	if (session?.id != null) {
 		const account = await UsersSQL.getById(session.id)
 		username = account.username
 
 		texts = await TextsSQL.getAllInParent(session.id, context.query.id)
 		folders = await FoldersSQL.getAllInParent(session.id, context.query.id)
 
-        parentFolderId = (await FoldersSQL.getById(context.query.id)).folderid
+		const parentFolder = await FoldersSQL.getById(context.query.id)
+
+		if (parentFolder == null) {
+			return {
+				notFound: true
+			}
+		}
+
+		parentFolderId = parentFolder.folderid
+	} else {
+		return {
+			notFound: true
+		}
 	}
 
 	return {
@@ -30,7 +42,7 @@ export async function getServerSideProps(context) {
 			username,
 			folders,
 			texts,
-            parentFolderId
+			parentFolderId
 		}
 	}
 }
@@ -40,7 +52,7 @@ export default function IndexPage() {
 	const { username, texts, folders, parentFolderId } = ssrFetcher.props
 
 	let contents
-	if(username != null){
+	if (username != null) {
 		contents = <LoggedIn texts={texts} isRootFolder={false} folders={folders} parentFolderId={parentFolderId} />
 	}
 
