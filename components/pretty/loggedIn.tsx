@@ -4,6 +4,8 @@ import { ClientText } from "../../clientlib/types/text";
 import Folder from "./folder";
 import Text from "./text";
 import css from "./loggedIn.module.scss";
+import Button from "./shared/button";
+import Link from "next/link";
 
 type Props = {
   texts: ClientText[];
@@ -21,6 +23,12 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
 
   return (
     <div className={css.root}>
+      <div className={css.buttons}>
+        <Link href="/pretty/newText">
+          <Button>New text</Button>
+        </Link>
+        <Button>New folder</Button>
+      </div>
       <div className={css.folders}>{renderFolders}</div>
       <div className={css.texts}>{renderTexts}</div>
     </div>

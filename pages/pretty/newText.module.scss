@@ -1,0 +1,33 @@
+.root {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 67%;
+  margin: 0px auto;
+
+  @media (max-width: 1000px) {
+    width: initial;
+    margin: initial;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .textInputsContainer {
+    display: flex;
+    gap: 6px;
+
+    .textInputContainer {
+      display: flex;
+      flex: 1;
+
+      .textarea {
+        flex: 1;
+        resize: none;
+        width: 0px;
+      }
+    }
+  }
+}

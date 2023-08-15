@@ -15,7 +15,7 @@ CREATE TABLE public.texts (
     titleencrypted boolean NOT NULL,
     titlehint text,
     FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY(folderid) REFERENCES folders(id) ON DELETE CASCADEh
+    FOREIGN KEY(folderid) REFERENCES folders(id) ON DELETE CASCADE
 );
 
 CREATE TABLE public.folders (

@@ -3,14 +3,9 @@ body[data-pretty="true"] {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-
-  @media (prefers-color-scheme: dark) {
-    & {
-      color: white;
-      background: black;
-      color-scheme: dark;
-    }
-  }
+  color: white;
+  background: rgb(30, 30, 30);
+  color-scheme: dark;
 }
 
 * {

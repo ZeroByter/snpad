@@ -1,4 +1,9 @@
 .root {
+  .buttons {
+    display: flex;
+    gap: 6px;
+    padding: 12px;
+  }
 
   .folders,
   .texts {

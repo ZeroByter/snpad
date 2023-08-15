@@ -4,7 +4,7 @@ import { ClientText } from "../../clientlib/types/text";
 import css from "./text.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile, faLock } from "@fortawesome/free-solid-svg-icons";
-import mergeClassNames from "merge-class-names";
+import classNames from "classnames";
 
 type Props = {
   text: ClientText;
@@ -17,7 +17,7 @@ const Text: FC<Props> = ({ text }) => {
   if (text.titleencrypted) {
     renderTitle = text.titlehint;
     renderIcon = (
-      <div className={mergeClassNames(css.icon, css.lockedText)}>
+      <div className={classNames(css.icon, css.lockedText)}>
         <FontAwesomeIcon icon={faLock} />
         <FontAwesomeIcon icon={faFile} />
       </div>
