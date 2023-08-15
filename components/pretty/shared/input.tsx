@@ -1,16 +1,18 @@
 import classNames from "classnames";
 import css from "./input.module.scss";
 import containerCss from "./container.module.scss";
+import { forwardRef } from "react";
 
 const Input: React.FC<
   React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   >
-> = (props) => {
+> = forwardRef((props, ref) => {
   return (
     <input
       {...props}
+      ref={ref}
       className={classNames(
         containerCss.rootNoPadding,
         css.root,
@@ -18,6 +20,6 @@ const Input: React.FC<
       )}
     />
   );
-};
+});
 
 export default Input;

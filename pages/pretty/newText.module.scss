@@ -11,8 +11,13 @@
     margin: initial;
   }
 
-  .input {
-    width: 100%;
+  .titleContainer {
+    display: flex;
+    gap: 6px;
+
+    .input {
+      flex: 1;
+    }
   }
 
   .textInputsContainer {
@@ -28,6 +33,15 @@
         resize: none;
         width: 0px;
       }
+    }
+  }
+
+  .passwordContainer {
+    display: flex;
+    gap: 6px;
+
+    .input {
+      flex: 1;
     }
   }
 }
