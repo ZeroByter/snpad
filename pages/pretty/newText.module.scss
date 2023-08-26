@@ -1,47 +1,56 @@
-.root {
-  padding: 16px;
+.pageRoot {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  width: 67%;
-  margin: 0px auto;
+  height: 100vh;
 
-  @media (max-width: 1000px) {
-    width: initial;
-    margin: initial;
-  }
-
-  .titleContainer {
+  .root {
+    padding: 16px;
     display: flex;
+    flex-direction: column;
     gap: 6px;
+    width: 67%;
+    margin: 0px auto;
+    flex: 1;
 
-    .input {
-      flex: 1;
+    @media (max-width: 1000px) {
+      width: initial;
+      margin: initial;
     }
-  }
 
-  .textInputsContainer {
-    display: flex;
-    gap: 6px;
-
-    .textInputContainer {
+    .titleContainer {
       display: flex;
-      flex: 1;
+      gap: 6px;
 
-      .textarea {
+      .input {
         flex: 1;
-        resize: none;
         width: 0px;
       }
     }
-  }
 
-  .passwordContainer {
-    display: flex;
-    gap: 6px;
-
-    .input {
+    .textInputsContainer {
+      display: flex;
+      gap: 6px;
       flex: 1;
+
+      .textInputContainer {
+        display: flex;
+        flex: 1;
+
+        .textarea {
+          flex: 1;
+          resize: none;
+          width: 0px;
+        }
+      }
+    }
+
+    .passwordContainer {
+      display: flex;
+      gap: 6px;
+
+      .input {
+        flex: 1;
+      }
     }
   }
 }
