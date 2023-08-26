@@ -2,21 +2,24 @@
   .icon {
     display: flex;
     justify-content: center;
+    height: 30px;
+    
+    svg{
+      height: 100%;
+    }svg{
+      height: 100%;
+    }
   }
 
   .lockedFolder {
     position: relative;
 
     svg {
-      &:first-child {
-        color: red;
-      }
-
       &:last-child {
         position: absolute;
-        left: 3px;
-        top: 10px;
-        font-size: 0.5em;
+        color: rgba(255,0,0,0.75);
+        height: 50%;
+        top: 9px;
       }
     }
   }

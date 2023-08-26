@@ -19,8 +19,8 @@ const Folder: FC<Props> = ({ folder }) => {
     renderTitle = folder.titlehint;
     renderIcon = (
       <div className={classNames(css.icon, css.lockedFolder)}>
-        <FontAwesomeIcon icon={faLock} />
         <FontAwesomeIcon icon={faFolder} />
+        <FontAwesomeIcon icon={faLock} />
       </div>
     );
   } else {

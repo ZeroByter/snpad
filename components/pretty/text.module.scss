@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100px;
 
   &:hover {
     background: rgba(255, 255, 255, 0.075);
@@ -19,22 +20,22 @@
   .icon {
     display: flex;
     justify-content: center;
+    height: 50px;
+
+    svg{
+      height: 100%;
+    }
   }
 
   .lockedText {
     position: relative;
 
     svg {
-      &:first-child {
-        color: red;
-      }
-
       &:last-child {
         position: absolute;
-        left: 50%;
-        top: 7px;
-        transform: translateX(-50%);
-        font-size: 0.5em;
+        color: rgba(255,0,0,0.75);
+        height: 50%;
+        top: 14px;
       }
     }
   }

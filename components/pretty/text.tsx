@@ -18,8 +18,8 @@ const Text: FC<Props> = ({ text }) => {
     renderTitle = text.titlehint;
     renderIcon = (
       <div className={classNames(css.icon, css.lockedText)}>
-        <FontAwesomeIcon icon={faLock} />
         <FontAwesomeIcon icon={faFile} />
+        <FontAwesomeIcon icon={faLock} />
       </div>
     );
   } else {
