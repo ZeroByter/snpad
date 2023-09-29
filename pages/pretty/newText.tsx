@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import Router from "next/router";
 import css from "./newText.module.scss";
 import textAreaCss from "@/components/pretty/shared/container.module.scss";
 import Input from "../../components/pretty/shared/input";
@@ -12,6 +13,9 @@ import UsersSQL from "../../serverlib/sql-classes/users";
 import { marked } from "marked";
 import classNames from "classnames";
 import { sanitize } from "isomorphic-dompurify";
+import PasswordInput from "@/components/pretty/passwordInput";
+import { randomId } from "sharedlib/essentials";
+import CryptoJS from "crypto-js";
 
 export async function getServerSideProps(context) {
   const session = await getLoginSession(context.req);
@@ -44,15 +48,56 @@ type FormData = {
 const NewTextPage: FC<Props> = ({ username }) => {
   const { register, handleSubmit, watch } = useForm<FormData>();
   const [markdownPreview, setMarkdownPreview] = useState("");
+  const [message, setMessage] = useState("");
   const watchTitleHint = watch("titleHint");
   const watchText = watch("text");
 
-  const onSubmit = handleSubmit((data) => {});
+  const isTitleEncrypted = watchTitleHint != null && watchTitleHint.length > 0;
+
+  const onSubmit = handleSubmit(async (data: FormData) => {
+    const randomValue = randomId(5);
+    const encryptedText = CryptoJS.AES.encrypt(
+      randomValue + data.text + randomValue,
+      data.password
+    ).toString();
+    let title;
+    if (isTitleEncrypted) {
+      title = CryptoJS.AES.encrypt(data.title, data.password).toString();
+    } else {
+      title = data.title;
+    }
+
+    let folderId = window.location.hash.slice(1);
+    if (folderId == "") {
+      folderId = null;
+    }
+
+    const rawResponse = await fetch("/api/texts/create", {
+      headers: {},
+      body: JSON.stringify({
+        folderId: folderId,
+
+        title,
+        titleHint: data.titleHint,
+        encryptTitle: isTitleEncrypted,
+
+        data: encryptedText,
+      }),
+      method: "POST",
+    });
+    const response = await rawResponse.json();
+
+    if (response.error == null) {
+      Router.replace("/pretty/text/" + response.newId + "#" + data.password);
+    } else {
+      setMessage(response.error);
+    }
+  });
 
   const renderTitleHelp = () => {
     return (
       <Container>
-        {watchTitleHint && watchTitleHint.length > 0
+        {isTitleEncrypted
           ? `Your title is encrypted, hint: '${watchTitleHint}'`
           : "Your title is unencrypted"}
       </Container>
@@ -105,14 +150,9 @@ const NewTextPage: FC<Props> = ({ username }) => {
           </div>
         </div>
         <div className={css.passwordContainer}>
-          <Input
-            {...register("password")}
-            required
-            className={css.input}
-            placeholder="Password"
-          />
-          <Button>Show password</Button>
+          <PasswordInput register={register("password")} />
         </div>
+        {message && <div>{message}</div>}
         <div>
           <Button>Create</Button>
         </div>
