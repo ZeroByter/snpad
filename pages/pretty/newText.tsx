@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import css from "./newText.module.scss";
+import textAreaCss from "@/components/pretty/shared/container.module.scss";
 import Input from "../../components/pretty/shared/input";
 import TextArea from "../../components/pretty/shared/textarea";
 import Button from "../../components/pretty/shared/button";
@@ -8,6 +9,9 @@ import { useForm } from "react-hook-form";
 import Header from "../../components/pretty/header";
 import { getLoginSession } from "../../serverlib/auth";
 import UsersSQL from "../../serverlib/sql-classes/users";
+import { marked } from "marked";
+import classNames from "classnames";
+import { sanitize } from "isomorphic-dompurify";
 
 export async function getServerSideProps(context) {
   const session = await getLoginSession(context.req);
@@ -28,7 +32,7 @@ export async function getServerSideProps(context) {
 
 type Props = {
   username: string;
-}
+};
 
 type FormData = {
   title: string;
@@ -39,9 +43,11 @@ type FormData = {
 
 const NewTextPage: FC<Props> = ({ username }) => {
   const { register, handleSubmit, watch } = useForm<FormData>();
+  const [markdownPreview, setMarkdownPreview] = useState("");
   const watchTitleHint = watch("titleHint");
+  const watchText = watch("text");
 
-  const onSubmit = handleSubmit((data) => { });
+  const onSubmit = handleSubmit((data) => {});
 
   const renderTitleHelp = () => {
     return (
@@ -52,6 +58,10 @@ const NewTextPage: FC<Props> = ({ username }) => {
       </Container>
     );
   };
+
+  useEffect(() => {
+    setMarkdownPreview(marked.parse(watchText ?? ""));
+  }, [watchText]);
 
   return (
     <div className={css.pageRoot}>
@@ -80,12 +90,18 @@ const NewTextPage: FC<Props> = ({ username }) => {
               required
             />
           </div>
-          <div className={css.textInputContainer}>
-            <TextArea
-              className={css.textarea}
-              readOnly
-              placeholder="Markdown preview"
-            />
+          <div
+            className={classNames(
+              css.textInputContainer,
+              textAreaCss.rootNoPadding
+            )}
+          >
+            <div
+              className={css.markdownPreview}
+              dangerouslySetInnerHTML={{
+                __html: sanitize(markdownPreview),
+              }}
+            ></div>
           </div>
         </div>
         <div className={css.passwordContainer}>

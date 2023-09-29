@@ -13,18 +13,18 @@ type Props = {
 };
 
 const LoggedIn: FC<Props> = ({ texts, folders }) => {
-  const renderTexts = texts.map((text: ClientText) => {
+  const renderTexts = texts?.map((text: ClientText) => {
     return <Text key={text.id} text={text} />;
   });
 
-  const renderFolders = folders.map((folder: ClientFolder) => {
+  const renderFolders = folders?.map((folder: ClientFolder) => {
     return <Folder key={folder.id} folder={folder} />;
   });
 
   return (
     <div className={css.root}>
       <div className={css.buttons}>
-        <Link href="/pretty/newText">
+        <Link href="/pretty/newText" passHref>
           <Button>New text</Button>
         </Link>
         <Button>New folder</Button>

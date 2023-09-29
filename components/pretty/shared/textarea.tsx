@@ -8,7 +8,7 @@ const TextArea: React.FC<
     React.TextareaHTMLAttributes<HTMLTextAreaElement>,
     HTMLTextAreaElement
   >
-> = forwardRef((props, ref) => {
+> = forwardRef(function TextArea(props, ref) {
   return (
     <textarea
       {...props}

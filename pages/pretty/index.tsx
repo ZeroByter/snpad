@@ -39,7 +39,7 @@ const PrettyIndex: NextPage = () => {
     username,
     texts,
     folders,
-  }: { username?: string; texts: ClientText[]; folders: ClientFolder[] } =
+  }: { username?: string; texts?: ClientText[]; folders?: ClientFolder[] } =
     ssrFetcher.props;
 
   return (
