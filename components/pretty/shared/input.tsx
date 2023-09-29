@@ -8,7 +8,7 @@ const Input: React.FC<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   >
-> = forwardRef((props, ref) => {
+> = forwardRef(function Input(props, ref) {
   return (
     <input
       {...props}
