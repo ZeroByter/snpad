@@ -96,7 +96,7 @@ const NewTextPage: FC<Props> = ({ username }) => {
 
   const renderTitleHelp = () => {
     return (
-      <Container>
+      <Container unclickable>
         {isTitleEncrypted
           ? `Your title is encrypted, hint: '${watchTitleHint}'`
           : "Your title is unencrypted"}
@@ -136,6 +136,7 @@ const NewTextPage: FC<Props> = ({ username }) => {
             />
           </div>
           <div
+            data-unclickable="false"
             className={classNames(
               css.textInputContainer,
               textAreaCss.rootNoPadding

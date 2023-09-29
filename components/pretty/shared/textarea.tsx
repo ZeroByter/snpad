@@ -13,6 +13,7 @@ const TextArea: React.FC<
     <textarea
       {...props}
       ref={ref}
+      data-unclickable="false"
       className={classNames(
         containerCss.rootNoPadding,
         css.root,

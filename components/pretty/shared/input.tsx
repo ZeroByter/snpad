@@ -13,6 +13,7 @@ const Input: React.FC<
     <input
       {...props}
       ref={ref}
+      data-unclickable="false"
       className={classNames(
         containerCss.rootNoPadding,
         css.root,

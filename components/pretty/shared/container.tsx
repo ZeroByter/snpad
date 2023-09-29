@@ -1,8 +1,9 @@
 import { forwardRef } from "react";
 import css from "./container.module.scss";
+import classNames from "classnames";
 
 type Props = {
-  static?: boolean;
+  unclickable?: boolean;
 };
 
 const Container: React.FC<
@@ -12,12 +13,14 @@ const Container: React.FC<
   > &
     Props
 > = forwardRef(function Container(props, ref) {
+  const { unclickable, className, ...otherProps } = props;
+
   return (
     <div
-      className={css.root}
-      {...props}
+      {...otherProps}
+      className={classNames(css.root, className)}
       ref={ref}
-      data-static={props.static ?? false}
+      data-unclickable={unclickable ?? false}
     >
       {props.children}
     </div>

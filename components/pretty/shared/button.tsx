@@ -11,8 +11,9 @@ const Button: React.FC<
 > = forwardRef(function Button(props, ref) {
   return (
     <button
-      className={classNames(containerCss.root, css.root)}
+      data-unclickable="false"
       {...props}
+      className={classNames(containerCss.root, css.root, props.className)}
       ref={ref}
     >
       {props.children}

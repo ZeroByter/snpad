@@ -24,7 +24,9 @@ const PasswordInput: FC<Props> = ({ register }) => {
         placeholder="Password"
         type={hidePassword ? "password" : "text"}
       />
-      <Button onClick={handleToggleHidePassword}>Show password</Button>
+      <Button onClick={handleToggleHidePassword} type="button">
+        {hidePassword ? "Show password" : "Hide password"}
+      </Button>
     </div>
   );
 };

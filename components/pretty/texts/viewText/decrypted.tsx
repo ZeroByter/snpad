@@ -20,6 +20,7 @@ const Decrypted: FC = () => {
         </div>
         <div className={css.textInputsContainer}>
           <div
+            data-unclickable="false"
             className={classNames(
               css.textInputContainer,
               textAreaCss.rootNoPadding
