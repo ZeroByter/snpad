@@ -3,7 +3,7 @@ import css from "./editMode.module.scss";
 import textAreaCss from "@/components/pretty/shared/container.module.scss";
 import { useForm } from "react-hook-form";
 import { randomId } from "sharedlib/essentials";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Input from "@/components/pretty/shared/input";
 import TextArea from "@/components/pretty/shared/textarea";
 import classNames from "classnames";
@@ -14,6 +14,7 @@ import Container from "@/components/pretty/shared/container";
 import { parse } from "marked";
 import CryptoJS from "crypto-js";
 import { useViewText } from "@/components/contexts/viewText";
+import { useSSRFetcher } from "@/components/contexts/ssrFetcher";
 
 type Props = {
   id: string;
@@ -28,6 +29,10 @@ type FormData = {
 };
 
 const EditMode: FC<Props> = ({ id, onFinishEdit }) => {
+  const router = useRouter();
+
+  const pageProps = useSSRFetcher();
+
   const {
     title,
     setTitle,
@@ -53,6 +58,10 @@ const EditMode: FC<Props> = ({ id, onFinishEdit }) => {
   const watchText = watch("text");
 
   const isTitleEncrypted = watchTitleHint != null && watchTitleHint.length > 0;
+
+  useEffect(() => {
+    setMarkdownPreview(parse(watchText ?? ""));
+  }, [watchText]);
 
   const onSubmit = handleSubmit(async (data: FormData) => {
     const randomValue = randomId(5);
@@ -96,9 +105,28 @@ const EditMode: FC<Props> = ({ id, onFinishEdit }) => {
     }
   });
 
-  useEffect(() => {
-    setMarkdownPreview(parse(watchText ?? ""));
-  }, [watchText]);
+  const handleDelete = async () => {
+    if (confirm("are you sure you want to delete? This is irreversible!")) {
+      const rawResponse = await fetch("/api/texts/delete", {
+        headers: {},
+        body: JSON.stringify({
+          id,
+        }),
+        method: "POST",
+      });
+      const response = await rawResponse.json();
+
+      if (response.error == null) {
+        if (pageProps.props.parentId) {
+          router.replace(`/pretty/folder/${pageProps.props.parentId}`);
+        } else {
+          router.replace("/pretty/");
+        }
+      } else {
+        setMessage(response.error);
+      }
+    }
+  };
 
   const renderTitleHelp = () => {
     return (
@@ -156,7 +184,7 @@ const EditMode: FC<Props> = ({ id, onFinishEdit }) => {
       {message && <div>{message}</div>}
       <div className={css.buttons}>
         <Button type="submit">Update</Button>
-        <Button type="button" theme="danger">
+        <Button type="button" theme="danger" onClick={handleDelete}>
           Delete
         </Button>
       </div>

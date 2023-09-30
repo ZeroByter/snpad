@@ -39,6 +39,7 @@ export async function getServerSideProps(context) {
       rawTitle: text.title,
       titleHint: text.titlehint,
       titleEncrypted: text.titleencrypted,
+      parentId: text.folderid,
       readOnly,
     },
   };
