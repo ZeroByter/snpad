@@ -1,13 +1,35 @@
 .root {
-  z-index: 1;
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.15);
+  flex: 1;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    height: 100%;
+
+    .titleContainer {
+      display: flex;
+
+      .input {
+        flex: 1;
+      }
+    }
+
+    .textInputsContainer {
+      flex: 1;
+      display: flex;
+
+      .textInputContainer {
+        flex: 1;
+
+        .markdownPreview {
+          padding: 8px;
+        }
+      }
+    }
+  }
 }

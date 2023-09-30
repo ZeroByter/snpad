@@ -11,16 +11,16 @@ export async function getServerSideProps(context) {
 
     const text = await TextsSQL.getById(id)
 
-    let readOnly = true
-    const session = await getLoginSession(context.req)
-    if (session?.id != null) {
-        readOnly = text.userid != session.id
-    }
-
     if (text == null) {
         return {
             notFound: true,
         }
+    }
+
+    let readOnly = true
+    const session = await getLoginSession(context.req)
+    if (session?.id != null) {
+        readOnly = text.userid != session.id
     }
 
     return {
