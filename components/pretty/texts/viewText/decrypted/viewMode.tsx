@@ -5,13 +5,13 @@ import textAreaCss from "@/components/pretty/shared/container.module.scss";
 import Input from "@/components/pretty/shared/input";
 import { sanitize } from "isomorphic-dompurify";
 import { parse } from "marked";
+import { useViewText } from "@/components/contexts/viewText";
 
-type Props = {
-  title: string;
-  text: string;
-};
+type Props = {};
 
-const ViewMode: FC<Props> = ({ title, text }) => {
+const ViewMode: FC<Props> = ({}) => {
+  const { title, text } = useViewText();
+
   return (
     <>
       <div className={css.titleContainer}>

@@ -7,6 +7,7 @@ import css from "./text.module.scss";
 import TextsSQL from "serverlib/sql-classes/texts";
 import attemptDecrypt from "@/clientlib/attempt-decrypt";
 import Decrypted from "@/components/pretty/texts/viewText/decrypted/decrypted";
+import ViewTextProvider, { useViewText } from "@/components/contexts/viewText";
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
@@ -66,9 +67,7 @@ const NewTextPage: FC<Props> = ({
     useState(false);
 
   const [decrypted, setDecrypted] = useState(false);
-  const [text, setText] = useState();
-  const [title, setTitle] = useState();
-  const [password, setPassword] = useState("");
+  const { setTitle, setTitleHint, setText, setPassword } = useViewText();
 
   useEffect(() => {
     if (window.location.hash.length != 0) {
@@ -97,6 +96,7 @@ const NewTextPage: FC<Props> = ({
   const handleDecrypted = (newText, newTitle, password) => {
     setText(newText);
     setTitle(newTitle);
+    setTitleHint(titleHint);
 
     setPassword(password);
     setDecrypted(true);
@@ -115,19 +115,18 @@ const NewTextPage: FC<Props> = ({
             onDecrypted={handleDecrypted}
           />
         )}
-        {decrypted && (
-          <Decrypted
-            id={id}
-            password={password}
-            readOnly={readOnly}
-            title={title}
-            text={text}
-            titleHint={titleHint}
-          />
-        )}
+        {decrypted && <Decrypted id={id} readOnly={readOnly} />}
       </div>
     </div>
   );
 };
 
-export default NewTextPage;
+const NewTextPageWrapper: FC<Props> = (props) => {
+  return (
+    <ViewTextProvider>
+      <NewTextPage {...props} />
+    </ViewTextProvider>
+  );
+};
+
+export default NewTextPageWrapper;

@@ -13,13 +13,10 @@ import Button from "@/components/pretty/shared/button";
 import Container from "@/components/pretty/shared/container";
 import { parse } from "marked";
 import CryptoJS from "crypto-js";
+import { useViewText } from "@/components/contexts/viewText";
 
 type Props = {
   id: string;
-  defaultTitle: string;
-  defaultTitleHint: string;
-  defaultText: string;
-  defaultPassword: string;
   onFinishEdit: () => void;
 };
 
@@ -30,20 +27,24 @@ type FormData = {
   password: string;
 };
 
-const EditMode: FC<Props> = ({
-  id,
-  defaultTitle,
-  defaultTitleHint,
-  defaultText,
-  defaultPassword,
-  onFinishEdit,
-}) => {
+const EditMode: FC<Props> = ({ id, onFinishEdit }) => {
+  const {
+    title,
+    setTitle,
+    titleHint,
+    setTitleHint,
+    text,
+    setText,
+    password,
+    setPassword,
+  } = useViewText();
+
   const { register, handleSubmit, watch } = useForm<FormData>({
     defaultValues: {
-      title: defaultTitle,
-      titleHint: defaultTitleHint,
-      text: defaultText,
-      password: defaultPassword,
+      title,
+      titleHint,
+      text,
+      password,
     },
   });
   const [markdownPreview, setMarkdownPreview] = useState("");
@@ -85,6 +86,10 @@ const EditMode: FC<Props> = ({
     const response = await rawResponse.json();
 
     if (response.error == null) {
+      setTitle(data.title);
+      setTitleHint(data.titleHint);
+      setText(data.text);
+      setPassword(data.password);
       onFinishEdit();
     } else {
       setMessage(response.error);

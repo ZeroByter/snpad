@@ -3,24 +3,14 @@ import css from "./decrypted.module.scss";
 import Container from "../../../shared/container";
 import ViewMode from "./viewMode";
 import EditMode from "./editMode";
+import { useViewText } from "@/components/contexts/viewText";
 
 type Props = {
   readOnly: boolean;
   id: string;
-  text: string;
-  title: string;
-  titleHint: string;
-  password: string;
 };
 
-const Decrypted: FC<Props> = ({
-  readOnly,
-  id,
-  text,
-  title,
-  titleHint,
-  password,
-}) => {
+const Decrypted: FC<Props> = ({ readOnly, id }) => {
   const [editMode, setEditMode] = useState(false);
 
   const handleToggleEditMode = () => {
@@ -39,16 +29,9 @@ const Decrypted: FC<Props> = ({
             {`Switch to ${editMode ? "view" : "edit"} mode`}
           </Container>
         )}
-        {(!editMode || readOnly) && <ViewMode title={title} text={text} />}
+        {(!editMode || readOnly) && <ViewMode />}
         {editMode && !readOnly && (
-          <EditMode
-            id={id}
-            defaultTitle={title}
-            defaultTitleHint={titleHint}
-            defaultText={text}
-            defaultPassword={password}
-            onFinishEdit={handleFinishEdit}
-          />
+          <EditMode id={id} onFinishEdit={handleFinishEdit} />
         )}
       </div>
     </div>
