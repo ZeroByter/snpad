@@ -6,7 +6,7 @@ import Header from "@/components/pretty/header";
 import css from "./text.module.scss";
 import TextsSQL from "serverlib/sql-classes/texts";
 import attemptDecrypt from "@/clientlib/attempt-decrypt";
-import Decrypted from "@/components/pretty/texts/viewText/decrypted";
+import Decrypted from "@/components/pretty/texts/viewText/decrypted/decrypted";
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
@@ -80,6 +80,7 @@ const NewTextPage: FC<Props> = ({
         titleEncrypted,
         rawTitle
       );
+
       if (decryptedData != null) {
         handleDecrypted(
           decryptedData.decryptedText,
@@ -121,7 +122,6 @@ const NewTextPage: FC<Props> = ({
             readOnly={readOnly}
             title={title}
             text={text}
-            titleEncrypted={titleEncrypted}
             titleHint={titleHint}
           />
         )}

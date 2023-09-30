@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import css from "./encrypted.module.scss";
 import Container from "../../shared/container";
 import PasswordInput from "../../passwordInput";
@@ -32,6 +32,12 @@ const Encrypted: FC<Props> = ({
   const { register, handleSubmit } = useForm<FormData>();
 
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (incorrectDefaultPassword) {
+      setMessage("Wrong password, please try again");
+    }
+  }, [incorrectDefaultPassword]);
 
   const onSubmit = handleSubmit((data: FormData) => {
     var decryptedData = attemptDecrypt(

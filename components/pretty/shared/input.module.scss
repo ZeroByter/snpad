@@ -3,7 +3,9 @@
   padding: 4px 8px;
   outline: none;
 
-  &:focus {
-    background: rgba(255, 255, 255, 0.075);
+  &:not(:read-only) {
+    &:focus {
+      background: rgba(255, 255, 255, 0.075);
+    }
   }
 }

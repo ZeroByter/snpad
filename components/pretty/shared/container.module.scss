@@ -17,6 +17,22 @@
       background: rgba(255, 255, 255, 0.1);
     }
   }
+
+  &[data-theme="danger"] {
+    background: rgb(88, 5, 5);
+
+    &[data-unclickable="false"] {
+      cursor: pointer;
+
+      &:hover {
+        background: rgb(95, 9, 9);
+      }
+
+      &:active {
+        background: rgb(102, 16, 16);
+      }
+    }
+  }
 }
 
 .rootNoPadding {
