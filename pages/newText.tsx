@@ -2,14 +2,14 @@ import { FC, useEffect, useState } from "react";
 import Router from "next/router";
 import css from "./newText.module.scss";
 import textAreaCss from "@/components/pretty/shared/container.module.scss";
-import Input from "../../components/pretty/shared/input";
-import TextArea from "../../components/pretty/shared/textarea";
-import Button from "../../components/pretty/shared/button";
-import Container from "../../components/pretty/shared/container";
+import Input from "@/components/pretty/shared/input";
+import TextArea from "@/components/pretty/shared/textarea";
+import Button from "@/components/pretty/shared/button";
+import Container from "@/components/pretty/shared/container";
 import { useForm } from "react-hook-form";
-import Header from "../../components/pretty/header";
-import { getLoginSession } from "../../serverlib/auth";
-import UsersSQL from "../../serverlib/sql-classes/users";
+import Header from "@/components/pretty/header";
+import { getLoginSession } from "@/serverlib/auth";
+import UsersSQL from "@/serverlib/sql-classes/users";
 import { marked } from "marked";
 import classNames from "classnames";
 import { sanitize } from "isomorphic-dompurify";
@@ -88,7 +88,7 @@ const NewTextPage: FC<Props> = ({ username }) => {
     const response = await rawResponse.json();
 
     if (response.error == null) {
-      Router.replace("/pretty/text/" + response.newId + "#" + data.password);
+      Router.replace("/text/" + response.newId + "#" + data.password);
     } else {
       setMessage(response.error);
     }

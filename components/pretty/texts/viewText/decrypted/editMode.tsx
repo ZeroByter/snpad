@@ -118,9 +118,9 @@ const EditMode: FC<Props> = ({ id, onFinishEdit }) => {
 
       if (response.error == null) {
         if (pageProps.props.parentId) {
-          router.replace(`/pretty/folder/${pageProps.props.parentId}`);
+          router.replace(`/folder/${pageProps.props.parentId}`);
         } else {
-          router.replace("/pretty/");
+          router.replace("/");
         }
       } else {
         setMessage(response.error);

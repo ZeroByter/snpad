@@ -21,6 +21,8 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"],
+      "@/serverlib/*": ["serverlib/*"],
+      "@/sharedlib/*": ["sharedlib/*"],
       "@/clientlib/*": ["clientlib/*"]
     }
   },

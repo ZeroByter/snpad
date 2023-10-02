@@ -1,13 +1,13 @@
 import { GetServerSideProps, NextPage } from "next";
-import { ClientFolder } from "../../../clientlib/types/folder";
-import { ClientText } from "../../../clientlib/types/text";
-import { useSSRFetcher } from "../../../components/contexts/ssrFetcher";
-import Header from "../../../components/pretty/header";
-import LoggedIn from "../../../components/pretty/loggedIn";
-import { getLoginSession } from "../../../serverlib/auth";
-import FoldersSQL from "../../../serverlib/sql-classes/folders";
-import TextsSQL from "../../../serverlib/sql-classes/texts";
-import UsersSQL from "../../../serverlib/sql-classes/users";
+import { ClientFolder } from "../../clientlib/types/folder";
+import { ClientText } from "../../clientlib/types/text";
+import { useSSRFetcher } from "../../components/contexts/ssrFetcher";
+import Header from "../../components/pretty/header";
+import LoggedIn from "../../components/pretty/loggedIn";
+import { getLoginSession } from "../../serverlib/auth";
+import FoldersSQL from "../../serverlib/sql-classes/folders";
+import TextsSQL from "../../serverlib/sql-classes/texts";
+import UsersSQL from "../../serverlib/sql-classes/users";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getLoginSession(context.req);

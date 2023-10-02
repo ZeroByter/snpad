@@ -6,6 +6,7 @@ import Text from "./text";
 import css from "./loggedIn.module.scss";
 import Button from "./shared/button";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type Props = {
   texts: ClientText[];
@@ -13,6 +14,8 @@ type Props = {
 };
 
 const LoggedIn: FC<Props> = ({ texts, folders }) => {
+  const router = useRouter();
+
   const renderTexts = texts?.map((text: ClientText) => {
     return <Text key={text.id} text={text} />;
   });
@@ -21,10 +24,15 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
     return <Folder key={folder.id} folder={folder} />;
   });
 
+  let newTextUrl = "/newText";
+  if (router.query.id) {
+    newTextUrl = `/newText#${router.query.id}`;
+  }
+
   return (
     <div className={css.root}>
       <div className={css.buttons}>
-        <Link href="/pretty/newText" passHref>
+        <Link href={newTextUrl} passHref>
           <Button>New text</Button>
         </Link>
         <Button>New folder</Button>

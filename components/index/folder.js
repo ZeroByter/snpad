@@ -88,8 +88,8 @@ export default function Folder({ folder }) {
         }
 
 
-        return <div><i><Link href={`/folder/${folderState.id}`}>{renderTitle}</Link></i> - {renderDecryptLink} {moveToFolderButton} {renameButton} {deleteButton}</div>
+        return <div><i><Link href={`/html/folder/${folderState.id}`}>{renderTitle}</Link></i> - {renderDecryptLink} {moveToFolderButton} {renameButton} {deleteButton}</div>
     } else {
-        return <div><i><Link href={`/folder/${folderState.id}`}>{folderState.title}</Link></i> - {moveToFolderButton} {renameButton} {deleteButton}</div>
+        return <div><i><Link href={`/html/folder/${folderState.id}`}>{folderState.title}</Link></i> - {moveToFolderButton} {renameButton} {deleteButton}</div>
     }
 }

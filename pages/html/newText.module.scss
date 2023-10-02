@@ -1,0 +1,33 @@
+.container {
+    width: fit-content;
+
+    .textarea {
+        min-width: 400px;
+        min-height: 200px;
+    }
+
+    .passwordContainer {
+        display: flex;
+
+        label {
+            display: flex;
+        }
+
+        .passwordLabel {
+            margin-right: 4px;
+        }
+
+        .passwordInputContainer {
+            flex: 1;
+            margin-right: 10px;
+
+            input {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.dontForgetWarning{
+    margin-top: 30px;
+}

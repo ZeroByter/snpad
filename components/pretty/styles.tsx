@@ -9,10 +9,7 @@ type Props = {
 const PrettyStyles: FC<Props> = ({ children }) => {
   const router = useRouter();
 
-  if (
-    typeof document !== "undefined" &&
-    router.pathname.startsWith("/pretty")
-  ) {
+  if (typeof document !== "undefined" && !router.pathname.startsWith("/html")) {
     document.body.setAttribute("data-pretty", "true");
   }
 

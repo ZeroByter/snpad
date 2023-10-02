@@ -23,7 +23,7 @@ export default function Text({ text }) {
                 } else {
                     setDecryptedTitle(decrypted)
                 }
-            } catch { 
+            } catch {
                 promptTitleDecrypt()
             }
         }
@@ -41,8 +41,8 @@ export default function Text({ text }) {
             renderTitle = decryptedTitle
         }
 
-        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - {moveToFolderButton}</div>
+        return <div><Link href={`/html/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - {moveToFolderButton}</div>
     } else {
-        return <div><Link href={`/text/${text.id}`}>{text.title}</Link> - {moveToFolderButton}</div>
+        return <div><Link href={`/html/text/${text.id}`}>{text.title}</Link> - {moveToFolderButton}</div>
     }
 }

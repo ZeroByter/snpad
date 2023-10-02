@@ -13,7 +13,7 @@ export default function Header({ username }) {
     } else {
         userControls = (
             <div>
-                <Link href="/login">Login</Link> <Link href="/register">Register</Link>
+                <Link href="/html/login">Login</Link> <Link href="/html/register">Register</Link>
             </div>
         )
     }

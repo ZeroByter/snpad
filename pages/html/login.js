@@ -42,23 +42,23 @@ export default function LoginPage() {
             setMessage("logged in! Redirecting in one seconds")
 
             navTimeoutRef.current = setTimeout(() => {
-                Router.push("/")
+                Router.push("/html/")
             }, 1000)
-        }else{
+        } else {
             setMessage(response)
         }
     }
 
     return (
         <div>
-            <Link href="/">back home</Link>
+            <Link href="/html/">back home</Link>
 
             <form onSubmit={handleFormSubmit}>
                 <div><input required placeholder="Username" onChange={handleUsernameChange} /></div>
                 <div><input required type="password" placeholder="Password" onChange={handlePasswordChange} /></div>
                 <div><button type="submit">login</button></div>
                 <div>{message}</div>
-                <div><Link href="/register">create account instead</Link></div>
+                <div><Link href="/html/register">create account instead</Link></div>
             </form>
         </div>
     )

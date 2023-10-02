@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import { getLoginSession } from "../../../serverlib/auth";
-import UsersSQL from "../../../serverlib/sql-classes/users";
+import { getLoginSession } from "@/serverlib/auth";
+import UsersSQL from "@/serverlib/sql-classes/users";
 import Encrypted from "@/components/pretty/texts/viewText/encrypted";
 import Header from "@/components/pretty/header";
 import css from "./text.module.scss";

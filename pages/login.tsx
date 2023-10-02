@@ -37,7 +37,7 @@ const Login: NextPage = () => {
     if (response == "success") {
       setMessage("logged in! Redirecting now...");
 
-      Router.push("/pretty");
+      Router.push("/");
     } else {
       setMessage(response);
     }
@@ -62,8 +62,8 @@ const Login: NextPage = () => {
         </div>
         <div>{message}</div>
         <div className={css.links}>
-          <Link href="/pretty">Home</Link>
-          <Link href="/pretty/register">Register</Link>
+          <Link href="/">Home</Link>
+          <Link href="/register">Register</Link>
         </div>
       </div>
     </div>

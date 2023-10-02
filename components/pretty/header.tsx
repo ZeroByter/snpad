@@ -10,12 +10,12 @@ const Header: FC<Props> = ({ username }) => {
   return (
     <div className={css.root}>
       <div>
-        <Link href="/pretty/">SecretNotePad</Link>
+        <Link href="/">SecretNotePad</Link>
       </div>
       {!username && (
         <div className={css.unauthenticated}>
-          <Link href="/pretty/login">Login</Link>
-          <Link href="/pretty/register">Register</Link>
+          <Link href="/login">Login</Link>
+          <Link href="/register">Register</Link>
         </div>
       )}
     </div>

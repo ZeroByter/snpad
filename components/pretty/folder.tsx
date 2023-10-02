@@ -33,7 +33,7 @@ const Folder: FC<Props> = ({ folder }) => {
   }
 
   return (
-    <Link href={`/pretty/folder/${folder.id}`} passHref>
+    <Link href={`/folder/${folder.id}`} passHref>
       <Container>
         <div className={css.root}>
           {renderIcon}

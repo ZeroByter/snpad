@@ -32,7 +32,7 @@ const Text: FC<Props> = ({ text }) => {
   }
 
   return (
-    <Link href={`/pretty/text/${text.id}`} passHref>
+    <Link href={`/text/${text.id}`} passHref>
       <div className={css.root}>
         {renderIcon}
         {renderTitle}
