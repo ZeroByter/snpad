@@ -42,7 +42,10 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
         <Button>New folder</Button>
       </div>
       <div className={css.previousFolder}>
-        <PreviousFolder />
+        <PreviousFolder
+          disabled={props.parentFolderId === undefined}
+          folderId={props.parentFolderId}
+        />
       </div>
       {renderFolders?.length > 0 && (
         <div className={css.folders}>{renderFolders}</div>

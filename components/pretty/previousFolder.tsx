@@ -6,17 +6,16 @@ import Container from "./shared/container";
 import { useSSRFetcher } from "../contexts/ssrFetcher";
 import ConditionalLink from "./shared/conditionalLink";
 
-type Props = {};
+type Props = {
+  disabled: boolean;
+  folderId: string;
+};
 
-const PreviousFolder: FC<Props> = ({}) => {
-  const { props } = useSSRFetcher();
-
-  const disabled = props.parentFolderId === undefined;
-
+const PreviousFolder: FC<Props> = ({ disabled, folderId }) => {
   return (
     <ConditionalLink
       disabled={disabled}
-      href={props.parentFolderId ? `/folder/${props.parentFolderId}` : "/"}
+      href={folderId ? `/folder/${folderId}` : "/"}
       passHref
     >
       <Container

@@ -3,6 +3,19 @@
   flex-direction: column;
   height: 100vh;
 
+  .backButtonContainer {
+    height: 0px;
+    width: fit-content;
+    position: relative;
+    left: 16px;
+    top: 16px;
+
+    @media (max-width: 1000px) {
+      height: initial;
+      padding-bottom: 16px;
+    }
+  }
+
   .root {
     padding: 16px;
     display: flex;

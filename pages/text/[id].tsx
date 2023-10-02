@@ -8,6 +8,10 @@ import TextsSQL from "serverlib/sql-classes/texts";
 import attemptDecrypt from "@/clientlib/attempt-decrypt";
 import Decrypted from "@/components/pretty/texts/viewText/decrypted/decrypted";
 import ViewTextProvider, { useViewText } from "@/components/contexts/viewText";
+import Button from "@/components/pretty/shared/button";
+import Link from "next/link";
+import { useSSRFetcher } from "@/components/contexts/ssrFetcher";
+import PreviousFolder from "@/components/pretty/previousFolder";
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
@@ -52,6 +56,7 @@ type Props = {
   rawTitle: string;
   titleHint: string;
   titleEncrypted: boolean;
+  parentId: string;
   readOnly: boolean;
 };
 
@@ -62,6 +67,7 @@ const NewTextPage: FC<Props> = ({
   rawTitle,
   titleHint,
   titleEncrypted,
+  parentId,
   readOnly,
 }) => {
   const [incorrectDefaultPassword, setIncorrectDefaultPassword] =
@@ -106,6 +112,9 @@ const NewTextPage: FC<Props> = ({
   return (
     <div className={css.pageRoot}>
       <Header username={username} />
+      <div className={css.backButtonContainer}>
+        <PreviousFolder disabled={false} folderId={parentId} />
+      </div>
       <div className={css.root}>
         {!decrypted && (
           <Encrypted
