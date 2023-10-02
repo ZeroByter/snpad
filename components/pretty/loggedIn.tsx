@@ -7,6 +7,8 @@ import css from "./loggedIn.module.scss";
 import Button from "./shared/button";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import PreviousFolder from "./previousFolder";
+import { useSSRFetcher } from "../contexts/ssrFetcher";
 
 type Props = {
   texts: ClientText[];
@@ -14,6 +16,8 @@ type Props = {
 };
 
 const LoggedIn: FC<Props> = ({ texts, folders }) => {
+  const { props } = useSSRFetcher();
+
   const router = useRouter();
 
   const renderTexts = texts?.map((text: ClientText) => {
@@ -37,7 +41,12 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
         </Link>
         <Button>New folder</Button>
       </div>
-      <div className={css.folders}>{renderFolders}</div>
+      <div className={css.previousFolder}>
+        <PreviousFolder />
+      </div>
+      {renderFolders?.length > 0 && (
+        <div className={css.folders}>{renderFolders}</div>
+      )}
       <div className={css.texts}>{renderTexts}</div>
     </div>
   );

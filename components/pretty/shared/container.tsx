@@ -4,6 +4,7 @@ import classNames from "classnames";
 
 type Props = {
   unclickable?: boolean;
+  noPadding?: boolean;
 };
 
 const Container: React.FC<
@@ -13,12 +14,16 @@ const Container: React.FC<
   > &
     Props
 > = forwardRef(function Container(props, ref) {
-  const { unclickable, className, ...otherProps } = props;
+  const { unclickable, noPadding, className, ...otherProps } = props;
 
   return (
     <div
       {...otherProps}
-      className={classNames(css.root, className)}
+      className={classNames(
+        !noPadding && css.root,
+        noPadding && css.rootNoPadding,
+        className
+      )}
       ref={ref}
       data-unclickable={unclickable ?? false}
     >
