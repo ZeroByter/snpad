@@ -45,26 +45,24 @@ const Login: NextPage = () => {
 
   return (
     <div className={css.root}>
-      <div className={css.container}>
-        <div className={css.title}>Login</div>
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <input {...register("username")} required type="username" />
-            </div>
-            <div>
-              <input {...register("password")} required type="password" />
-            </div>
-            <div>
-              <input type="submit" value="Login" />
-            </div>
-          </form>
-        </div>
-        <div>{message}</div>
-        <div className={css.links}>
-          <Link href="/">Home</Link>
-          <Link href="/register">Register</Link>
-        </div>
+      <div className={css.title}>Login</div>
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <input {...register("username")} required type="username" />
+          </div>
+          <div>
+            <input {...register("password")} required type="password" />
+          </div>
+          <div>
+            <input type="submit" value="Login" />
+          </div>
+        </form>
+      </div>
+      <div>{message}</div>
+      <div className={css.links}>
+        <Link href="/">Home</Link>
+        <Link href="/register">Register</Link>
       </div>
     </div>
   );

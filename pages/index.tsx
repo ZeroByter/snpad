@@ -8,6 +8,7 @@ import { useSSRFetcher } from "@/components/contexts/ssrFetcher";
 import { ClientFolder } from "@/clientlib/types/folder";
 import { ClientText } from "@/clientlib/types/text";
 import LoggedIn from "@/components/pretty/loggedIn";
+import LoggedOut from "@/components/pretty/loggedOut";
 
 export async function getServerSideProps(context) {
   const session = await getLoginSession(context.req);
@@ -44,8 +45,8 @@ const PrettyIndex: NextPage = () => {
 
   return (
     <>
-      <Header username={username} />
       {username != null && <LoggedIn texts={texts} folders={folders} />}
+      {username == null && <LoggedOut username={username} />}
     </>
   );
 };

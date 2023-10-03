@@ -7,7 +7,6 @@ import TextArea from "@/components/pretty/shared/textarea";
 import Button from "@/components/pretty/shared/button";
 import Container from "@/components/pretty/shared/container";
 import { useForm } from "react-hook-form";
-import Header from "@/components/pretty/header";
 import { getLoginSession } from "@/serverlib/auth";
 import UsersSQL from "@/serverlib/sql-classes/users";
 import { marked } from "marked";
@@ -16,6 +15,7 @@ import { sanitize } from "isomorphic-dompurify";
 import PasswordInput from "@/components/pretty/passwordInput";
 import { randomId } from "sharedlib/essentials";
 import CryptoJS from "crypto-js";
+import PreviousFolder from "@/components/pretty/previousFolder";
 
 export async function getServerSideProps(context) {
   const session = await getLoginSession(context.req);
@@ -45,6 +45,14 @@ type FormData = {
   password: string;
 };
 
+const getFolderId = () => {
+  let folderId = window.location.hash.slice(1);
+  if (folderId == "") {
+    return null;
+  }
+  return folderId;
+};
+
 const NewTextPage: FC<Props> = ({ username }) => {
   const { register, handleSubmit, watch } = useForm<FormData>();
   const [markdownPreview, setMarkdownPreview] = useState("");
@@ -53,6 +61,8 @@ const NewTextPage: FC<Props> = ({ username }) => {
   const watchText = watch("text");
 
   const isTitleEncrypted = watchTitleHint != null && watchTitleHint.length > 0;
+
+  const folderId = getFolderId();
 
   const onSubmit = handleSubmit(async (data: FormData) => {
     const randomValue = randomId(5);
@@ -67,15 +77,10 @@ const NewTextPage: FC<Props> = ({ username }) => {
       title = data.title;
     }
 
-    let folderId = window.location.hash.slice(1);
-    if (folderId == "") {
-      folderId = null;
-    }
-
     const rawResponse = await fetch("/api/texts/create", {
       headers: {},
       body: JSON.stringify({
-        folderId: folderId,
+        folderId,
 
         title,
         titleHint: data.titleHint,
@@ -109,8 +114,10 @@ const NewTextPage: FC<Props> = ({ username }) => {
   }, [watchText]);
 
   return (
-    <div className={css.pageRoot}>
-      <Header username={username} />
+    <>
+      <div className={css.backButtonContainer}>
+        <PreviousFolder disabled={false} folderId={folderId} />
+      </div>
       <form className={css.root} onSubmit={onSubmit}>
         {renderTitleHelp()}
         <div className={css.titleContainer}>
@@ -158,7 +165,7 @@ const NewTextPage: FC<Props> = ({ username }) => {
           <Button>Create</Button>
         </div>
       </form>
-    </div>
+    </>
   );
 };
 

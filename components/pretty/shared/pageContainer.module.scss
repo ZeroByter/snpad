@@ -1,0 +1,21 @@
+.pageRoot {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .root {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 67%;
+    margin: 0px auto;
+    flex: 1;
+    overflow-y: auto;
+
+    @media (max-width: 800px) {
+      width: initial;
+      margin: initial;
+    }
+  }
+}

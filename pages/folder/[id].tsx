@@ -65,10 +65,7 @@ const PrettyFolder: NextPage = () => {
   } = ssrFetcher.props;
 
   return (
-    <>
-      <Header username={username} />
-      {username != null && <LoggedIn texts={texts} folders={folders} />}
-    </>
+    <>{username != null && <LoggedIn texts={texts} folders={folders} />}</>
   );
 };
 

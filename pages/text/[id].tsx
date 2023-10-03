@@ -2,15 +2,11 @@ import { FC, useEffect, useState } from "react";
 import { getLoginSession } from "@/serverlib/auth";
 import UsersSQL from "@/serverlib/sql-classes/users";
 import Encrypted from "@/components/pretty/texts/viewText/encrypted";
-import Header from "@/components/pretty/header";
 import css from "./text.module.scss";
 import TextsSQL from "serverlib/sql-classes/texts";
 import attemptDecrypt from "@/clientlib/attempt-decrypt";
 import Decrypted from "@/components/pretty/texts/viewText/decrypted/decrypted";
 import ViewTextProvider, { useViewText } from "@/components/contexts/viewText";
-import Button from "@/components/pretty/shared/button";
-import Link from "next/link";
-import { useSSRFetcher } from "@/components/contexts/ssrFetcher";
 import PreviousFolder from "@/components/pretty/previousFolder";
 
 export async function getServerSideProps(context) {
@@ -37,7 +33,6 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      username,
       id,
       rawData: text.data,
       rawTitle: text.title,
@@ -50,7 +45,6 @@ export async function getServerSideProps(context) {
 }
 
 type Props = {
-  username: string;
   id: string;
   rawData: string;
   rawTitle: string;
@@ -61,7 +55,6 @@ type Props = {
 };
 
 const NewTextPage: FC<Props> = ({
-  username,
   id,
   rawData,
   rawTitle,
@@ -111,7 +104,6 @@ const NewTextPage: FC<Props> = ({
 
   return (
     <div className={css.pageRoot}>
-      <Header username={username} />
       <div className={css.backButtonContainer}>
         <PreviousFolder disabled={false} folderId={parentId} />
       </div>

@@ -1,24 +1,18 @@
 .root {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  width: fit-content;
+  margin: 0px auto;
 
-  .container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
+  .title {
+    font-size: 1.4em;
+    text-align: center;
+    padding-bottom: 10px;
+  }
 
-    .title {
-      font-size: 1.4em;
-      text-align: center;
-      padding-bottom: 10px;
-    }
-
-    .links {
-      padding-top: 10px;
-      display: flex;
-      justify-content: space-between;
-    }
+  .links {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
   }
 }
