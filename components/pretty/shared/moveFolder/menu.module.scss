@@ -1,0 +1,33 @@
+.root {
+  padding: 8px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 200px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 800px) {
+    position: fixed;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+  }
+
+  .header {
+    width: 100%;
+    text-align: center;
+  }
+
+  .searchContainer {
+    .search {
+      width: 100%;
+    }
+  }
+
+  .folders {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}

@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { ClientFolder } from "../../clientlib/types/folder";
 import css from "./folder.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder, faLock } from "@fortawesome/free-solid-svg-icons";
 import Container from "./shared/container";
 import classNames from "classnames";
+import MoveFolder from "./shared/moveFolder";
+import Router from "next/router";
+import { isElementUnderElement } from "@/clientlib/essentials";
 
 type Props = {
   folder: ClientFolder;
@@ -14,6 +17,11 @@ type Props = {
 const Folder: FC<Props> = ({ folder }) => {
   let renderTitle;
   let renderIcon;
+
+  const handleContainerClick = (e: MouseEvent<HTMLDivElement>) => {
+    console.log(isElementUnderElement(e.target, e.currentTarget))
+    //Router.push(`/folder/${folder.id}`)
+  }
 
   if (folder.titleencrypted) {
     renderTitle = folder.titlehint;
@@ -33,14 +41,13 @@ const Folder: FC<Props> = ({ folder }) => {
   }
 
   return (
-    <Link href={`/folder/${folder.id}`} passHref>
-      <Container>
-        <div className={css.root}>
-          {renderIcon}
-          {renderTitle}
-        </div>
-      </Container>
-    </Link>
+    <Container className={css.containerRoot} onClick={handleContainerClick}>
+      <div className={css.root}>
+        {renderIcon}
+        {renderTitle}
+      </div>
+      <MoveFolder />
+    </Container>
   );
 };
 
