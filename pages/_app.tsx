@@ -1,6 +1,5 @@
 import Head from "next/head";
 import SSRFetcherProvider from "../components/contexts/ssrFetcher";
-import PrettyStyles from "../components/pretty/styles";
 import "../styles/global.scss";
 import PageContainer from "@/components/pretty/shared/pageContainer";
 
@@ -12,11 +11,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <SSRFetcherProvider pageProps={pageProps}>
-        <PrettyStyles>
-          <PageContainer>
-            <Component {...pageProps} />
-          </PageContainer>
-        </PrettyStyles>
+        <PageContainer>
+          <Component {...pageProps} />
+        </PageContainer>
       </SSRFetcherProvider>
     </>
   );

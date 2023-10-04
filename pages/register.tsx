@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import css from "./login.module.scss";
+import css from "./register.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import Router from "next/router";
@@ -45,7 +45,7 @@ const Login: NextPage = () => {
 
   return (
     <div className={css.root}>
-      <div className={css.title}>Login</div>
+      <div className={css.title}>Register</div>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
@@ -65,14 +65,14 @@ const Login: NextPage = () => {
             />
           </div>
           <div>
-            <input type="submit" value="Login" />
+            <input type="submit" value="Register" />
           </div>
         </form>
       </div>
       <div>{message}</div>
       <div className={css.links}>
         <Link href="/">Home</Link>
-        <Link href="/register">Register</Link>
+        <Link href="/login">Login</Link>
       </div>
     </div>
   );

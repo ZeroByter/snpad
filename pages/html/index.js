@@ -41,6 +41,7 @@ export default function IndexPage() {
 
 	return (
 		<>
+			<Header username={username} />
 			{contents}
 		</>
 	)
