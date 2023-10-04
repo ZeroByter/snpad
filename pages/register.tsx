@@ -4,7 +4,6 @@ import css from "./register.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import Router from "next/router";
-import crypto from "crypto";
 
 type Inputs = {
   username: string;
@@ -17,26 +16,21 @@ const Login: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    data.password = crypto
-      .createHash("sha256")
-      .update(data.password)
-      .digest("hex");
-
-    const rawResponse = await fetch("/api/login", {
+    const rawResponse = await fetch("/api/register", {
       headers: {},
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        username: data.username,
+        password: data.password,
+      }),
       method: "POST",
     });
     const response = await rawResponse.text();
 
     if (response == "success") {
-      setMessage("logged in! Redirecting now...");
-
       Router.push("/");
     } else {
       setMessage(response);
@@ -69,7 +63,7 @@ const Login: NextPage = () => {
           </div>
         </form>
       </div>
-      <div>{message}</div>
+      {message && <div>{message}</div>}
       <div className={css.links}>
         <Link href="/">Home</Link>
         <Link href="/login">Login</Link>
