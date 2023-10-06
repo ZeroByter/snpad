@@ -1,7 +1,14 @@
-export const isElementUnderElement = (search: EventTarget, isUnder: HTMLElement) => {
-  if (search.parentElement) {
-    return isElementUnderElement(search.parentElement, isUnder)
+export const isElementInsideTarget = (
+  target: HTMLElement,
+  search: HTMLElement
+): boolean => {
+  if (target === search) {
+    return true;
   }
 
-  return false
-}
+  if (target.parentElement) {
+    return isElementInsideTarget(target.parentElement, search);
+  }
+
+  return false;
+};

@@ -1,19 +1,31 @@
 import Link from "next/link";
-import { FC } from "react";
+import { FC, MouseEvent, useRef } from "react";
 import { ClientText } from "../../clientlib/types/text";
 import css from "./text.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile, faLock } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames";
 import MoveFolder from "./shared/moveFolder";
+import { isElementInsideTarget } from "@/clientlib/essentials";
+import Router from "next/router";
 
 type Props = {
   text: ClientText;
 };
 
 const Text: FC<Props> = ({ text }) => {
+  const moveFolderRef = useRef();
+
   let renderTitle;
   let renderIcon;
+
+  const handleContainerClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (
+      !isElementInsideTarget(e.target as HTMLElement, moveFolderRef.current)
+    ) {
+      Router.push(`/text/${text.id}`);
+    }
+  };
 
   if (text.titleencrypted) {
     renderTitle = text.titlehint;
@@ -33,13 +45,11 @@ const Text: FC<Props> = ({ text }) => {
   }
 
   return (
-    <Link href={`/text/${text.id}`} passHref>
-      <div className={css.root}>
-        {renderIcon}
-        {renderTitle}
-        <MoveFolder />
-      </div>
-    </Link>
+    <div className={css.root} onClick={handleContainerClick}>
+      {renderIcon}
+      {renderTitle}
+      <MoveFolder ref={moveFolderRef} />
+    </div>
   );
 };
 
