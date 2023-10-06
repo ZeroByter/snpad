@@ -13,6 +13,7 @@ export async function getServerSideProps(context) {
 	let texts = null
 	let folders = null
 
+	let folderId = null
 	let parentFolderId = null
 
 	if (session?.id != null) {
@@ -30,6 +31,8 @@ export async function getServerSideProps(context) {
 			}
 		}
 
+		folderId = context.query.id
+
 		parentFolderId = parentFolder.folderid
 	} else {
 		return {
@@ -42,6 +45,7 @@ export async function getServerSideProps(context) {
 			username,
 			folders,
 			texts,
+			folderId,
 			parentFolderId
 		}
 	}

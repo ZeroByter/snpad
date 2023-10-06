@@ -16,12 +16,32 @@ const getIsHtml = () => {
   return true;
 };
 
+const getUrlHtmlVersion = (loaded: boolean) => {
+  if (!loaded) {
+    return "/html";
+  }
+
+  return ["", "html", ...document.location.pathname.split("/").slice(1)].join(
+    "/"
+  );
+};
+
+const getUrlPrettyVersion = (loaded: boolean) => {
+  if (!loaded) {
+    return "/";
+  }
+
+  return "/" + [...document.location.pathname.split("/").slice(2)].join("/");
+};
+
 const Header: FC<Props> = ({ username }) => {
   const router = useRouter();
 
+  const [loaded, setLoaded] = useState(false);
   const [isHtml, setIsHtml] = useState(false);
 
   useEffect(() => {
+    setLoaded(true);
     setIsHtml(getIsHtml());
   }, [router]);
 
@@ -59,12 +79,12 @@ const Header: FC<Props> = ({ username }) => {
         )}
         <VerticalDivider />
         {!isHtml && (
-          <Link href="/html" shallow>
+          <Link href={getUrlHtmlVersion(loaded)} shallow>
             Bare-HTML
           </Link>
         )}
         {isHtml && (
-          <Link href="/" shallow>
+          <Link href={getUrlPrettyVersion(loaded)} shallow>
             Pretty
           </Link>
         )}

@@ -73,7 +73,7 @@ export default function Folder({ folder }) {
         }
     }
 
-    const moveToFolderButton = <MoveToFolderButton isText={false} itemId={folderState.id} />
+    const moveToFolderButton = <MoveToFolderButton isText={false} itemId={folderState.id} parentId={folder.folderid} />
     const renameButton = <NewFolderButton existingFolder={folderState} onCreated={handleOnRename} />
     const deleteButton = <button onClick={handleDelete}>delete</button>
 

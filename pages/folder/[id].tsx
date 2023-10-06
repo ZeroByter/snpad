@@ -16,6 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let texts = null;
   let folders = null;
 
+  let folderId = null;
   let parentFolderId = null;
 
   if (session?.id != null) {
@@ -33,6 +34,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
+    folderId = context.query.id;
+
     parentFolderId = parentFolder.folderid;
   } else {
     return {
@@ -45,6 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       username,
       folders,
       texts,
+      folderId,
       parentFolderId,
     },
   };

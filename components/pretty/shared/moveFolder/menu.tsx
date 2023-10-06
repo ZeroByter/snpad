@@ -3,16 +3,31 @@ import css from "./menu.module.scss";
 import Container from "../container";
 import Input from "../input";
 import MoveFolderFolder from "./folder";
+import { ClientSearchedFolder } from "@/clientlib/types/searchedFolder";
+import { useSSRFetcher } from "@/components/contexts/ssrFetcher";
 
-const MoveFolderMenu: FC = () => {
+type Props = {
+  itemId: string;
+  parentId: string;
+  isText: boolean;
+  onMoved: () => void;
+};
+
+const MoveFolderMenu: FC<Props> = ({ itemId, parentId, isText, onMoved }) => {
+  const ssrFetcher = useSSRFetcher();
+
   const searchDebounceTimeoutRef = useRef(-1);
 
   const [search, setSearch] = useState("");
-  const [folders, setFolders] = useState([]);
+  const [folders, setFolders] = useState<ClientSearchedFolder[]>([]);
 
   const fetchFolders = useCallback(async () => {
     const rawResponse = await fetch(
-      `/api/folders/search?${new URLSearchParams({ search }).toString()}`,
+      `/api/folders/search?${new URLSearchParams({
+        search,
+        itemId,
+        parentId,
+      }).toString()}`,
       {
         headers: {
           "content-type": "application/json",
@@ -25,7 +40,7 @@ const MoveFolderMenu: FC = () => {
     if (response.error == null) {
       setFolders(response.folders);
     }
-  }, [search]);
+  }, [search, itemId, parentId]);
 
   useEffect(() => {
     clearTimeout(searchDebounceTimeoutRef.current);
@@ -41,8 +56,50 @@ const MoveFolderMenu: FC = () => {
     };
   }, []);
 
+  const handleFolderSelect = async (folderId: string) => {
+    const url = isText ? "/api/texts/move" : "/api/folders/move";
+
+    const rawResponse = await fetch(url, {
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        itemId,
+        newParentId: folderId,
+      }),
+      method: "POST",
+    });
+    const response = await rawResponse.json();
+
+    if (response.error == null) {
+      onMoved();
+
+      if (isText) {
+        ssrFetcher.setProps((oldState) => {
+          return {
+            ...oldState,
+            texts: response.newTexts,
+          };
+        });
+      } else {
+        ssrFetcher.setProps((oldState) => {
+          return {
+            ...oldState,
+            folders: response.newFolders,
+          };
+        });
+      }
+    }
+  };
+
   const renderFolders = folders.map((folder) => {
-    return <MoveFolderFolder key={folder.id} />;
+    return (
+      <MoveFolderFolder
+        key={folder.id}
+        folder={folder}
+        onClick={handleFolderSelect}
+      />
+    );
   });
 
   return (

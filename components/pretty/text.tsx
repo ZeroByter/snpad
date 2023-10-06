@@ -8,12 +8,15 @@ import classNames from "classnames";
 import MoveFolder from "./shared/moveFolder";
 import { isElementInsideTarget } from "@/clientlib/essentials";
 import Router from "next/router";
+import { useSSRFetcher } from "../contexts/ssrFetcher";
 
 type Props = {
   text: ClientText;
 };
 
 const Text: FC<Props> = ({ text }) => {
+  const ssrFetcher = useSSRFetcher();
+
   const moveFolderRef = useRef();
 
   let renderTitle;
@@ -48,7 +51,12 @@ const Text: FC<Props> = ({ text }) => {
     <div className={css.root} onClick={handleContainerClick}>
       {renderIcon}
       {renderTitle}
-      <MoveFolder ref={moveFolderRef} />
+      <MoveFolder
+        ref={moveFolderRef}
+        isText={true}
+        itemId={text.id}
+        parentId={ssrFetcher.props.folderId}
+      />
     </div>
   );
 };

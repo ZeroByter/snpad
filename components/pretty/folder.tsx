@@ -51,7 +51,12 @@ const Folder: FC<Props> = ({ folder }) => {
         {renderIcon}
         {renderTitle}
       </div>
-      <MoveFolder ref={moveFolderRef} />
+      <MoveFolder
+        ref={moveFolderRef}
+        isText={false}
+        itemId={folder.id}
+        parentId={folder.folderid}
+      />
     </Container>
   );
 };

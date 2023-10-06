@@ -5,9 +5,15 @@ import MoveFolderMenu from "./menu";
 
 type Props = {
   ref: ForwardedRef<HTMLDivElement>;
+  isText: boolean;
+  itemId: string;
+  parentId: string;
 };
 
-const MoveFolder: FC<Props> = forwardRef(function MoveFolder(props, ref) {
+const MoveFolder: FC<Props> = forwardRef(function MoveFolder(
+  { isText, parentId, itemId },
+  ref
+) {
   const [showMenu, setShowMenu] = useState(false);
 
   const handleButtonClick = () => {
@@ -21,7 +27,14 @@ const MoveFolder: FC<Props> = forwardRef(function MoveFolder(props, ref) {
   return (
     <div ref={ref} className={css.root} onMouseLeave={handleMouseLeave}>
       <MoveFolderButton onClick={handleButtonClick} />
-      {showMenu && <MoveFolderMenu />}
+      {showMenu && (
+        <MoveFolderMenu
+          isText={isText}
+          itemId={itemId}
+          parentId={parentId}
+          onMoved={handleMouseLeave}
+        />
+      )}
     </div>
   );
 });
