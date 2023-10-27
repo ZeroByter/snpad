@@ -9,6 +9,7 @@ import MoveFolder from "./shared/moveFolder";
 import { isElementInsideTarget } from "@/clientlib/essentials";
 import Router from "next/router";
 import { useSSRFetcher } from "../contexts/ssrFetcher";
+import ActionMenu from "./shared/actionMenu";
 
 type Props = {
   text: ClientText;
@@ -17,14 +18,14 @@ type Props = {
 const Text: FC<Props> = ({ text }) => {
   const ssrFetcher = useSSRFetcher();
 
-  const moveFolderRef = useRef();
+  const actionMenuRef = useRef();
 
   let renderTitle;
   let renderIcon;
 
   const handleContainerClick = (e: MouseEvent<HTMLDivElement>) => {
     if (
-      !isElementInsideTarget(e.target as HTMLElement, moveFolderRef.current)
+      !isElementInsideTarget(e.target as HTMLElement, actionMenuRef.current)
     ) {
       Router.push(`/text/${text.id}`);
     }
@@ -51,12 +52,13 @@ const Text: FC<Props> = ({ text }) => {
     <div className={css.root} onClick={handleContainerClick}>
       {renderIcon}
       {renderTitle}
-      <MoveFolder
+      {/* <MoveFolder
         ref={moveFolderRef}
         isText={true}
         itemId={text.id}
         parentId={ssrFetcher.props.folderId}
-      />
+      /> */}
+      <ActionMenu ref={actionMenuRef} />
     </div>
   );
 };
