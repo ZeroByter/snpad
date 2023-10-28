@@ -1,20 +1,21 @@
-import { FC, ForwardedRef, createContext, forwardRef, useContext, useState } from "react";
+import { FC, ForwardedRef, ReactElement, createContext, forwardRef, useContext, useState } from "react";
 import ActionMenuButton from "./button";
 import css from "./index.module.scss";
 import ActionMenuMenu from "./menu";
 
 type Props = {
   ref: ForwardedRef<HTMLDivElement>;
+  children: ReactElement;
 };
 
 type Context = {
-  itemClick: () => void;
+  itemClick: VoidFunction;
 };
 
 const ActionMenuContext = createContext({} as Context);
 
 const ActionMenu: FC<Props> = forwardRef(function ActionMenu(
-  props,
+  { children },
   ref
 ) {
   const [showMenu, setShowMenu] = useState(false);
@@ -40,8 +41,9 @@ const ActionMenu: FC<Props> = forwardRef(function ActionMenu(
       <div ref={ref} className={css.root} onMouseLeave={handleMouseLeave}>
         <ActionMenuButton onClick={handleButtonClick} />
         {showMenu && (
-          <ActionMenuMenu
-          />
+          <ActionMenuMenu>
+            {children}
+          </ActionMenuMenu>
         )}
       </div>
     </ActionMenuContext.Provider>

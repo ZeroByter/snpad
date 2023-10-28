@@ -9,20 +9,21 @@ import classNames from "classnames";
 import MoveFolder from "./shared/moveFolder";
 import Router from "next/router";
 import { isElementInsideTarget } from "@/clientlib/essentials";
+import ActionMenu from "./shared/actionMenu";
 
 type Props = {
   folder: ClientFolder;
 };
 
 const Folder: FC<Props> = ({ folder }) => {
-  const moveFolderRef = useRef();
+  const actionMenuRef = useRef();
 
   let renderTitle;
   let renderIcon;
 
   const handleContainerClick = (e: MouseEvent<HTMLDivElement>) => {
     if (
-      !isElementInsideTarget(e.target as HTMLElement, moveFolderRef.current)
+      !isElementInsideTarget(e.target as HTMLElement, actionMenuRef.current)
     ) {
       Router.push(`/folder/${folder.id}`);
     }
@@ -51,12 +52,11 @@ const Folder: FC<Props> = ({ folder }) => {
         {renderIcon}
         {renderTitle}
       </div>
-      <MoveFolder
-        ref={moveFolderRef}
+      <ActionMenu ref={actionMenuRef}><MoveFolder
         isText={false}
         itemId={folder.id}
         parentId={folder.folderid}
-      />
+      /></ActionMenu>
     </Container>
   );
 };

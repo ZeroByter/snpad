@@ -10,10 +10,11 @@ type Props = {
   itemId: string;
   parentId: string;
   isText: boolean;
-  onMoved: () => void;
+  onMoved: VoidFunction;
+  onMouseLeave: VoidFunction;
 };
 
-const MoveFolderMenu: FC<Props> = ({ itemId, parentId, isText, onMoved }) => {
+const MoveFolderMenu: FC<Props> = ({ itemId, parentId, isText, onMoved, onMouseLeave }) => {
   const ssrFetcher = useSSRFetcher();
 
   const searchDebounceTimeoutRef = useRef(-1);
@@ -103,7 +104,7 @@ const MoveFolderMenu: FC<Props> = ({ itemId, parentId, isText, onMoved }) => {
   });
 
   return (
-    <Container unclickable className={css.root}>
+    <Container onMouseLeave={onMouseLeave} unclickable className={css.root}>
       <div className={css.header}>Move to folder</div>
       <div className={css.searchContainer}>
         <Input
@@ -115,7 +116,14 @@ const MoveFolderMenu: FC<Props> = ({ itemId, parentId, isText, onMoved }) => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <div className={css.folders}>{renderFolders}</div>
+      <div className={css.folders}>
+        {parentId != null &&
+          <MoveFolderFolder
+            folder={null}
+            onClick={handleFolderSelect}
+          />
+        }
+        {renderFolders}</div>
     </Container>
   );
 };

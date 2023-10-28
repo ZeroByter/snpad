@@ -18,7 +18,7 @@ import { useSSRFetcher } from "@/components/contexts/ssrFetcher";
 
 type Props = {
   id: string;
-  onFinishEdit: () => void;
+  onFinishEdit: VoidFunction;
 };
 
 type FormData = {

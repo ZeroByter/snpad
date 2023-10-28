@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Container from "../container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolder } from "@fortawesome/free-solid-svg-icons";
+import { faFolder, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { ClientSearchedFolder } from "@/clientlib/types/searchedFolder";
 
 type Props = {
@@ -11,11 +11,11 @@ type Props = {
 
 const MoveFolderFolder: FC<Props> = ({ folder, onClick }) => {
   return (
-    <Container onClick={() => onClick(folder.id)}>
+    <Container onClick={() => onClick(folder?.id ?? null)}>
       <div>
-        <FontAwesomeIcon icon={faFolder} />
+        <FontAwesomeIcon icon={folder ? faFolder : faFolderOpen} />
       </div>
-      <div>{folder.title}</div>
+      <div>{folder?.title ?? "Root"}</div>
     </Container>
   );
 };

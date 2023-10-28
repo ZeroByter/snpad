@@ -52,13 +52,13 @@ const Text: FC<Props> = ({ text }) => {
     <div className={css.root} onClick={handleContainerClick}>
       {renderIcon}
       {renderTitle}
-      {/* <MoveFolder
-        ref={moveFolderRef}
-        isText={true}
-        itemId={text.id}
-        parentId={ssrFetcher.props.folderId}
-      /> */}
-      <ActionMenu ref={actionMenuRef} />
+      <ActionMenu ref={actionMenuRef}>
+        <MoveFolder
+          isText={true}
+          itemId={text.id}
+          parentId={ssrFetcher.props.folderId}
+        />
+      </ActionMenu>
     </div>
   );
 };

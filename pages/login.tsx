@@ -51,6 +51,7 @@ const Login: NextPage = () => {
           <div>
             <input
               {...register("username")}
+              autoFocus
               required
               type="username"
               placeholder="Username"

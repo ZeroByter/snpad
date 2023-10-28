@@ -48,6 +48,7 @@ const Login: NextPage = () => {
               required
               type="username"
               placeholder="Username"
+              autoFocus
             />
           </div>
           <div>

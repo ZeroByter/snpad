@@ -46,10 +46,15 @@ type FormData = {
 };
 
 const getFolderId = () => {
+  if (typeof window === "undefined") {
+    return null
+  }
+
   let folderId = window.location.hash.slice(1);
   if (folderId == "") {
     return null;
   }
+
   return folderId;
 };
 
@@ -126,6 +131,7 @@ const NewTextPage: FC<Props> = ({ username }) => {
             required
             className={css.input}
             placeholder="Title"
+            autoFocus
           />
           <Input
             {...register("titleHint")}

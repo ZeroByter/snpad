@@ -1,19 +1,18 @@
 import { FC, ForwardedRef, forwardRef, useState } from "react";
-import MoveFolderButton from "./button";
 import css from "./index.module.scss";
 import MoveFolderMenu from "./menu";
+import ActionMenuItem from "../actionMenu/item";
+import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
-  ref: ForwardedRef<HTMLDivElement>;
   isText: boolean;
   itemId: string;
   parentId: string;
 };
 
-const MoveFolder: FC<Props> = forwardRef(function MoveFolder(
-  { isText, parentId, itemId },
-  ref
-) {
+const MoveFolder: FC<Props> = (
+  { isText, parentId, itemId }
+) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const handleButtonClick = () => {
@@ -25,18 +24,19 @@ const MoveFolder: FC<Props> = forwardRef(function MoveFolder(
   };
 
   return (
-    <div ref={ref} className={css.root} onMouseLeave={handleMouseLeave}>
-      <MoveFolderButton onClick={handleButtonClick} />
+    <div className={css.root} onMouseLeave={handleMouseLeave}>
+      <ActionMenuItem text="Move to folder" icon={faFolderOpen} onClick={handleButtonClick} />
       {showMenu && (
         <MoveFolderMenu
           isText={isText}
           itemId={itemId}
           parentId={parentId}
+          onMouseLeave={handleMouseLeave}
           onMoved={handleMouseLeave}
         />
       )}
     </div>
-  );
-});
+  )
+};
 
 export default MoveFolder;
