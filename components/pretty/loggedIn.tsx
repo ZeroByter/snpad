@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { ClientFolder } from "../../clientlib/types/folder";
 import { ClientText } from "../../clientlib/types/text";
 import Folder from "./folder";
@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import PreviousFolder from "./previousFolder";
 import { useSSRFetcher } from "../contexts/ssrFetcher";
+import NewFolderModal from "./shared/modals/newFolder";
 
 type Props = {
   texts: ClientText[];
@@ -19,6 +20,12 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
   const { props } = useSSRFetcher();
 
   const router = useRouter();
+
+  const [viewNewFolder, setViewNewFolder] = useState(false)
+
+  const toggleViewNewFolder = () => {
+    setViewNewFolder(!viewNewFolder)
+  }
 
   const renderTexts = texts?.map((text: ClientText) => {
     return <Text key={text.id} text={text} />;
@@ -39,7 +46,7 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
         <Link href={newTextUrl} passHref>
           <Button>New text</Button>
         </Link>
-        <Button>New folder</Button>
+        <Button onClick={toggleViewNewFolder}>New folder</Button>
       </div>
       <div className={css.previousFolder}>
         <PreviousFolder
@@ -51,6 +58,7 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
         <div className={css.folders}>{renderFolders}</div>
       )}
       <div className={css.texts}>{renderTexts}</div>
+      {viewNewFolder && <NewFolderModal onBackdropClick={toggleViewNewFolder} />}
     </div>
   );
 };
