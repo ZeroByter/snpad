@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import css from "./menu.module.scss";
-import Container from "../container";
-import Input from "../input";
+import Container from "../../container";
+import Input from "../../input";
 import MoveFolderFolder from "./folder";
 import { ClientSearchedFolder } from "@/clientlib/types/searchedFolder";
 import { useSSRFetcher } from "@/components/contexts/ssrFetcher";

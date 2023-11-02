@@ -5,7 +5,7 @@ import css from "./text.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile, faLock } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames";
-import MoveFolder from "./shared/moveFolder";
+import MoveFolder from "./shared/folderActions/moveFolder";
 import { isElementInsideTarget } from "@/clientlib/essentials";
 import Router from "next/router";
 import { useSSRFetcher } from "../contexts/ssrFetcher";

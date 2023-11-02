@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Container from "../container";
+import Container from "../../container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { ClientSearchedFolder } from "@/clientlib/types/searchedFolder";

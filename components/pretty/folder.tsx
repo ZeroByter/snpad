@@ -6,10 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder, faLock } from "@fortawesome/free-solid-svg-icons";
 import Container from "./shared/container";
 import classNames from "classnames";
-import MoveFolder from "./shared/moveFolder";
+import MoveFolder from "./shared/folderActions/moveFolder";
 import Router from "next/router";
 import { isElementInsideTarget } from "@/clientlib/essentials";
 import ActionMenu from "./shared/actionMenu";
+import RenameFolderAction from "./shared/folderActions/renameFolder";
+import DeleteFolderAction from "./shared/folderActions/deleteFolder";
+import DecryptTitleAction from "./shared/folderActions/decryptTitle";
 
 type Props = {
   folder: ClientFolder;
@@ -52,11 +55,18 @@ const Folder: FC<Props> = ({ folder }) => {
         {renderIcon}
         {renderTitle}
       </div>
-      <ActionMenu ref={actionMenuRef}><MoveFolder
-        isText={false}
-        itemId={folder.id}
-        parentId={folder.folderid}
-      /></ActionMenu>
+      <ActionMenu ref={actionMenuRef}>
+        <>
+          <MoveFolder
+            isText={false}
+            itemId={folder.id}
+            parentId={folder.folderid}
+          />
+          <DecryptTitleAction enable={folder.titleencrypted} />
+          <RenameFolderAction />
+          <DeleteFolderAction />
+        </>
+      </ActionMenu>
     </Container>
   );
 };

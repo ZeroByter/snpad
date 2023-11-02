@@ -1,7 +1,7 @@
-import { FC, ForwardedRef, forwardRef, useState } from "react";
+import { FC, useState } from "react";
 import css from "./index.module.scss";
 import MoveFolderMenu from "./menu";
-import ActionMenuItem from "../actionMenu/item";
+import ActionMenuItem from "../../actionMenu/item";
 import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
