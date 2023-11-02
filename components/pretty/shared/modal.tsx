@@ -1,4 +1,5 @@
 import { FC, MouseEvent, ReactElement } from "react";
+import { createPortal } from "react-dom"
 import css from "./modal.module.scss"
 import Container from "./container";
 
@@ -14,13 +15,13 @@ const Modal: FC<Props> = ({ children, onBackdropClick }) => {
     }
   }
 
-  return (
+  return createPortal(
     <div className={css.root} onClick={handleBackdropClick}>
       <Container className={css.container} unclickable>
         {children}
       </Container>
     </div>
-  )
+    , document.body)
 }
 
 export default Modal;
