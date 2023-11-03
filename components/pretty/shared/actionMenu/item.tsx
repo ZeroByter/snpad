@@ -2,6 +2,7 @@ import { FC } from "react";
 import Container from "../container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import css from "./item.module.scss";
 
 type Props = {
   text: string;
@@ -11,10 +12,15 @@ type Props = {
 };
 
 const ActionMenuItem: FC<Props> = ({ text, icon, onClick, enable }) => {
-  // TOOD: if enable is false, make container half opacity and blocked cursor and unclickable
+  const isDisabled = enable != null && !enable;
 
   return (
-    <Container onClick={() => onClick()} unclickable={!enable}>
+    <Container
+      onClick={!isDisabled ? onClick : () => {}}
+      unclickable={isDisabled}
+      data-enabled={!isDisabled}
+      className={css.root}
+    >
       <div>
         <FontAwesomeIcon icon={icon} />
       </div>

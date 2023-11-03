@@ -1,0 +1,6 @@
+.root {
+  &[data-enabled="false"] {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
