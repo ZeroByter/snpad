@@ -73,7 +73,7 @@ const Folder: FC<Props> = ({ folder }) => {
             existingFolder={folderState}
             setFolderState={setFolderState}
           />
-          <DeleteFolderAction />
+          <DeleteFolderAction folder={folderState} />
         </>
       </ActionMenu>
     </Container>
