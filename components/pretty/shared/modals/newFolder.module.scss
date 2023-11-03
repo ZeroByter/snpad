@@ -3,6 +3,10 @@
   flex-direction: column;
   gap: 6px;
 
+  .input {
+    width: 100%;
+  }
+
   .title {
     font-size: 18px;
     text-align: center;

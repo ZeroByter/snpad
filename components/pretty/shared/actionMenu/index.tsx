@@ -1,7 +1,17 @@
-import { FC, ForwardedRef, ReactElement, createContext, forwardRef, useContext, useState } from "react";
+import {
+  FC,
+  ForwardedRef,
+  MouseEvent,
+  ReactElement,
+  createContext,
+  forwardRef,
+  useContext,
+  useState,
+} from "react";
 import ActionMenuButton from "./button";
 import css from "./index.module.scss";
 import ActionMenuMenu from "./menu";
+import { isElementInsideTarget } from "@/clientlib/essentials";
 
 type Props = {
   ref: ForwardedRef<HTMLDivElement>;
@@ -24,27 +34,27 @@ const ActionMenu: FC<Props> = forwardRef(function ActionMenu(
     setShowMenu(!showMenu);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
+    if (!isElementInsideTarget(e.target as HTMLElement, e.currentTarget)) {
+      return;
+    }
+
     setShowMenu(false);
   };
 
   const handleItemClick = () => {
-
-  }
+    setShowMenu(false);
+  };
 
   const contextData = {
-    itemClick: handleItemClick
-  }
+    itemClick: handleItemClick,
+  };
 
   return (
     <ActionMenuContext.Provider value={contextData}>
       <div ref={ref} className={css.root} onMouseLeave={handleMouseLeave}>
         <ActionMenuButton onClick={handleButtonClick} />
-        {showMenu && (
-          <ActionMenuMenu>
-            {children}
-          </ActionMenuMenu>
-        )}
+        {showMenu && <ActionMenuMenu>{children}</ActionMenuMenu>}
       </div>
     </ActionMenuContext.Provider>
   );

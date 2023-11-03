@@ -18,11 +18,20 @@ type Props = {
 };
 
 const LoggedIn: FC<Props> = ({ texts, folders }) => {
-  const { props } = useSSRFetcher();
+  const { props, setProps } = useSSRFetcher();
 
   const router = useRouter();
 
-  const { visible, toggle } = useModal()
+  const { visible, toggle } = useModal();
+
+  const handleNewFolder = (_finalTitle, _titleHint, newFolders) => {
+    setProps((oldState) => {
+      return {
+        ...oldState,
+        folders: newFolders,
+      };
+    });
+  };
 
   const renderTexts = texts?.map((text: ClientText) => {
     return <Text key={text.id} text={text} />;
@@ -55,7 +64,9 @@ const LoggedIn: FC<Props> = ({ texts, folders }) => {
         <div className={css.folders}>{renderFolders}</div>
       )}
       <div className={css.texts}>{renderTexts}</div>
-      {visible && <NewFolderModal onBackdropClick={toggle} />}
+      {visible && (
+        <NewFolderModal onBackdropClick={toggle} onSuccess={handleNewFolder} />
+      )}
     </div>
   );
 };

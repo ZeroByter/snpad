@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FC, MouseEvent, useRef } from "react";
+import { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import { ClientFolder } from "../../clientlib/types/folder";
 import css from "./folder.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,10 +19,16 @@ type Props = {
 };
 
 const Folder: FC<Props> = ({ folder }) => {
+  const [folderState, setFolderState] = useState(folder);
+
   const actionMenuRef = useRef();
 
   let renderTitle;
   let renderIcon;
+
+  useEffect(() => {
+    setFolderState(folder);
+  }, [folder]);
 
   const handleContainerClick = (e: MouseEvent<HTMLDivElement>) => {
     if (
@@ -32,8 +38,8 @@ const Folder: FC<Props> = ({ folder }) => {
     }
   };
 
-  if (folder.titleencrypted) {
-    renderTitle = folder.titlehint;
+  if (folderState.titleencrypted) {
+    renderTitle = folderState.titlehint;
     renderIcon = (
       <div className={classNames(css.icon, css.lockedFolder)}>
         <FontAwesomeIcon icon={faFolder} />
@@ -41,7 +47,7 @@ const Folder: FC<Props> = ({ folder }) => {
       </div>
     );
   } else {
-    renderTitle = folder.title;
+    renderTitle = folderState.title;
     renderIcon = (
       <div className={css.icon}>
         <FontAwesomeIcon icon={faFolder} />
@@ -59,11 +65,14 @@ const Folder: FC<Props> = ({ folder }) => {
         <>
           <MoveFolder
             isText={false}
-            itemId={folder.id}
-            parentId={folder.folderid}
+            itemId={folderState.id}
+            parentId={folderState.folderid}
           />
-          <DecryptTitleAction enable={folder.titleencrypted} />
-          <RenameFolderAction />
+          <DecryptTitleAction enable={folderState.titleencrypted} />
+          <RenameFolderAction
+            existingFolder={folderState}
+            setFolderState={setFolderState}
+          />
           <DeleteFolderAction />
         </>
       </ActionMenu>
