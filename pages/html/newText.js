@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import css from "./newText.module.scss"
 import CryptoJS from "crypto-js"
-import { randomId } from "../sharedlib/essentials"
+import { randomId } from "@/sharedlib/essentials"
 
 export default function NewText() {
     const titleRef = useRef()
@@ -30,7 +30,7 @@ export default function NewText() {
     const handleFormSubmit = async e => {
         e.preventDefault()
 
-        if(startedCreationRef.current) return
+        if (startedCreationRef.current) return
         startedCreationRef.current = true
 
         const randomValue = randomId(5)
@@ -43,7 +43,7 @@ export default function NewText() {
         }
 
         let folderId = window.location.hash.slice(1)
-        if(folderId == ""){
+        if (folderId == "") {
             folderId = null
         }
 
@@ -66,7 +66,7 @@ export default function NewText() {
             setMessage("created text, redirecting in two seconds")
 
             navTimeoutRef.current = setTimeout(() => {
-                Router.replace("/text/" + response.newId + "#" + passwordRef.current.value)
+                Router.replace("/html/text/" + response.newId + "#" + passwordRef.current.value)
             }, 2000)
         } else {
             startedCreationRef.current = false
@@ -75,7 +75,7 @@ export default function NewText() {
     }
 
     let renderTitleHintInput
-    if(viewTitleHint){
+    if (viewTitleHint) {
         renderTitleHintInput = (
             <div>title hint: <input ref={titleHintRef} /> <span title="when your title is encrypted, this will be the title shown instead">[?]</span></div>
         )
@@ -83,7 +83,7 @@ export default function NewText() {
 
     return (
         <div>
-            <div><Link href="/">home</Link></div>
+            <div><Link href="/html/">home</Link></div>
             <form onSubmit={handleFormSubmit}>
                 <div className={css.container}>
                     <div><label>title: <input ref={titleRef} /></label> <label>encrypt title: <input ref={encryptTitleRef} type="checkbox" onChange={e => setViewTitleHint(e.target.checked)} /></label></div>

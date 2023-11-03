@@ -3,7 +3,7 @@ import { useSSRFetcher } from "../../contexts/ssrFetcher"
 import css from "./moveToFolderMenu.module.scss"
 import SelectMoveFolder from "./selectFolder"
 
-export default function MoveToFolderMenu({ visible, onMoved, isText, itemId }) {
+export default function MoveToFolderMenu({ visible, onMoved, isText, itemId, parentId }) {
     const ssrFetcher = useSSRFetcher()
 
     const searchDebounceTimeoutRef = useRef(-1)
@@ -12,7 +12,10 @@ export default function MoveToFolderMenu({ visible, onMoved, isText, itemId }) {
     const [search, setSearch] = useState("")
 
     const fetchFolders = useCallback(async () => {
-        const rawResponse = await fetch(`/api/folders/search?${new URLSearchParams({ search }).toString()}`, {
+        const rawResponse = await fetch(`/api/folders/search?${new URLSearchParams({
+            search, itemId,
+            parentId,
+        }).toString()}`, {
             "headers": {
                 "content-type": "application/json"
             },
@@ -23,7 +26,7 @@ export default function MoveToFolderMenu({ visible, onMoved, isText, itemId }) {
         if (response.error == null) {
             setFolders(response.folders)
         }
-    }, [search])
+    }, [itemId, parentId, search])
 
     useEffect(() => {
         if (visible) fetchFolders()
@@ -79,8 +82,6 @@ export default function MoveToFolderMenu({ visible, onMoved, isText, itemId }) {
     }
 
     const renderFolders = folders.map(folder => {
-        if (!isText && itemId == folder.id) return null
-
         return <SelectMoveFolder key={folder.id} onClick={handleFolderSelect} folder={folder} />
     })
 

@@ -1,0 +1,31 @@
+.containerRoot {
+  position: relative;
+  
+  .root {
+    .icon {
+      display: flex;
+      justify-content: center;
+      height: 30px;
+
+      svg {
+        height: 100%;
+      }
+      svg {
+        height: 100%;
+      }
+    }
+
+    .lockedFolder {
+      position: relative;
+
+      svg {
+        &:last-child {
+          position: absolute;
+          color: rgba(255, 0, 0, 0.75);
+          height: 50%;
+          top: 9px;
+        }
+      }
+    }
+  }
+}

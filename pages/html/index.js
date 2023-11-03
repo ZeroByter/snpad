@@ -1,10 +1,10 @@
-import { useSSRFetcher } from "../components/contexts/ssrFetcher";
-import Header from "../components/index/header";
-import LoggedIn from "../components/index/loggedIn";
-import { getLoginSession } from "../serverlib/auth";
-import FoldersSQL from "../serverlib/sql-classes/folders";
-import TextsSQL from "../serverlib/sql-classes/texts";
-import UsersSQL from "../serverlib/sql-classes/users";
+import { useSSRFetcher } from "../../components/contexts/ssrFetcher";
+import Header from "../../components/index/header";
+import LoggedIn from "../../components/index/loggedIn";
+import { getLoginSession } from "../../serverlib/auth";
+import FoldersSQL from "../../serverlib/sql-classes/folders";
+import TextsSQL from "../../serverlib/sql-classes/texts";
+import UsersSQL from "../../serverlib/sql-classes/users";
 
 export async function getServerSideProps(context) {
 	const session = await getLoginSession(context.req)

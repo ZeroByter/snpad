@@ -1,0 +1,13 @@
+.root {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 10px;
+  display: flex;
+  gap: 10px;
+  overflow: auto;
+  min-height: 33px;
+
+  .links {
+    display: flex;
+    gap: 6px;
+  }
+}

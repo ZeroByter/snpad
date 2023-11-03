@@ -1,0 +1,20 @@
+.titleContainer {
+  display: flex;
+
+  .input {
+    flex: 1;
+  }
+}
+
+.textInputsContainer {
+  flex: 1;
+  display: flex;
+
+  .textInputContainer {
+    flex: 1;
+
+    .markdownPreview {
+      padding: 8px;
+    }
+  }
+}

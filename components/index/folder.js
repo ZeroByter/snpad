@@ -73,7 +73,7 @@ export default function Folder({ folder }) {
         }
     }
 
-    const moveToFolderButton = <MoveToFolderButton isText={false} itemId={folderState.id} />
+    const moveToFolderButton = <MoveToFolderButton isText={false} itemId={folderState.id} parentId={folder.folderid} />
     const renameButton = <NewFolderButton existingFolder={folderState} onCreated={handleOnRename} />
     const deleteButton = <button onClick={handleDelete}>delete</button>
 
@@ -88,8 +88,8 @@ export default function Folder({ folder }) {
         }
 
 
-        return <div><i><Link href={`/folder/${folderState.id}`}>{renderTitle}</Link></i> - {renderDecryptLink} {moveToFolderButton} {renameButton} {deleteButton}</div>
+        return <div><i><Link href={`/html/folder/${folderState.id}`}>{renderTitle}</Link></i> - {renderDecryptLink} {moveToFolderButton} {renameButton} {deleteButton}</div>
     } else {
-        return <div><i><Link href={`/folder/${folderState.id}`}>{folderState.title}</Link></i> - {moveToFolderButton} {renameButton} {deleteButton}</div>
+        return <div><i><Link href={`/html/folder/${folderState.id}`}>{folderState.title}</Link></i> - {moveToFolderButton} {renameButton} {deleteButton}</div>
     }
 }

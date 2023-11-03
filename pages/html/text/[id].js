@@ -1,26 +1,26 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import attemptDecrypt from "../../clientlib/attempt-decrypt"
-import Decrypted from "../../components/texts/viewText/decrypted"
-import Encrypted from "../../components/texts/viewText/encrypted"
-import { getLoginSession } from "../../serverlib/auth"
-import TextsSQL from "../../serverlib/sql-classes/texts"
+import attemptDecrypt from "@/clientlib/attempt-decrypt"
+import Decrypted from "@/components/texts/viewText/decrypted"
+import Encrypted from "@/components/texts/viewText/encrypted"
+import { getLoginSession } from "@/serverlib/auth"
+import TextsSQL from "@/serverlib/sql-classes/texts"
 
 export async function getServerSideProps(context) {
     const { id } = context.query
 
     const text = await TextsSQL.getById(id)
 
-    let readOnly = true
-    const session = await getLoginSession(context.req)
-    if (session?.id != null) {
-        readOnly = text.userid != session.id
-    }
-
     if (text == null) {
         return {
             notFound: true,
         }
+    }
+
+    let readOnly = true
+    const session = await getLoginSession(context.req)
+    if (session?.id != null) {
+        readOnly = text.userid != session.id
     }
 
     return {
@@ -74,7 +74,7 @@ export default function ViewText({ readOnly, id, rawData, rawTitle, titleHint, t
 
     return (
         <div>
-            <Link href="/">back home</Link>
+            <Link href="/html/">back home</Link>
             {renderedContents}
         </div>
     )

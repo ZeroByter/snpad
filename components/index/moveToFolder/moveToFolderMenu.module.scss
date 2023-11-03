@@ -1,16 +1,16 @@
-.container{
+.container {
     position: absolute;
     right: 0px;
     width: max-content;
     top: 2px;
     border: 1px solid black;
-    background: white;
+    background: black;
     padding: 2px;
     box-sizing: border-box;
     transform: translateX(calc(100% + 15px));
     z-index: 1;
 
-    &[data-visible="false"]{
+    &[data-visible="false"] {
         display: none;
     }
 }

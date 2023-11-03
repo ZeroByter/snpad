@@ -13,7 +13,7 @@ export default function LoggedIn({ texts, isRootFolder, folders, parentFolderId 
     let renderGoBackFolder = null
     if (!isRootFolder) {
         renderGoBackFolder = (
-            <i><Link href={parentFolderId ? `/folder/${parentFolderId}` : "/"}>[...]</Link></i>
+            <i><Link href={parentFolderId ? `/html/folder/${parentFolderId}` : "/html/"}>[...]</Link></i>
         )
     }
 
@@ -34,9 +34,9 @@ export default function LoggedIn({ texts, isRootFolder, folders, parentFolderId 
         })
     }
 
-    let newTextUrl = "/newText"
+    let newTextUrl = "/html/newText"
     if (router.query.id) {
-        newTextUrl = `/newText#${router.query.id}`
+        newTextUrl = `/html/newText#${router.query.id}`
     }
 
     return (

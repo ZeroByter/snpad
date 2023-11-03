@@ -1,10 +1,10 @@
-import { useSSRFetcher } from "../../components/contexts/ssrFetcher"
-import Header from "../../components/index/header"
-import LoggedIn from "../../components/index/loggedIn"
-import { getLoginSession } from "../../serverlib/auth"
-import FoldersSQL from "../../serverlib/sql-classes/folders"
-import TextsSQL from "../../serverlib/sql-classes/texts"
-import UsersSQL from "../../serverlib/sql-classes/users"
+import { useSSRFetcher } from "../../../components/contexts/ssrFetcher"
+import Header from "../../../components/index/header"
+import LoggedIn from "../../../components/index/loggedIn"
+import { getLoginSession } from "../../../serverlib/auth"
+import FoldersSQL from "../../../serverlib/sql-classes/folders"
+import TextsSQL from "../../../serverlib/sql-classes/texts"
+import UsersSQL from "../../../serverlib/sql-classes/users"
 
 export async function getServerSideProps(context) {
 	const session = await getLoginSession(context.req)
@@ -13,16 +13,31 @@ export async function getServerSideProps(context) {
 	let texts = null
 	let folders = null
 
-    let parentFolderId = null
+	let folderId = null
+	let parentFolderId = null
 
-	if(session?.id != null){
+	if (session?.id != null) {
 		const account = await UsersSQL.getById(session.id)
 		username = account.username
 
 		texts = await TextsSQL.getAllInParent(session.id, context.query.id)
 		folders = await FoldersSQL.getAllInParent(session.id, context.query.id)
 
-        parentFolderId = (await FoldersSQL.getById(context.query.id)).folderid
+		const parentFolder = await FoldersSQL.getById(context.query.id)
+
+		if (parentFolder == null) {
+			return {
+				notFound: true
+			}
+		}
+
+		folderId = context.query.id
+
+		parentFolderId = parentFolder.folderid
+	} else {
+		return {
+			notFound: true
+		}
 	}
 
 	return {
@@ -30,7 +45,8 @@ export async function getServerSideProps(context) {
 			username,
 			folders,
 			texts,
-            parentFolderId
+			folderId,
+			parentFolderId
 		}
 	}
 }
@@ -40,7 +56,7 @@ export default function IndexPage() {
 	const { username, texts, folders, parentFolderId } = ssrFetcher.props
 
 	let contents
-	if(username != null){
+	if (username != null) {
 		contents = <LoggedIn texts={texts} isRootFolder={false} folders={folders} parentFolderId={parentFolderId} />
 	}
 

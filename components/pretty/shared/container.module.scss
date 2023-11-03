@@ -1,0 +1,56 @@
+.root {
+  background: rgb(41, 41, 41);
+  border-radius: 4px;
+  border: 1px solid rgb(52, 52, 52);
+  padding: 8px 16px;
+  display: flex;
+  gap: 4px;
+
+  &[data-unclickable="false"] {
+    cursor: pointer;
+
+    &:hover {
+      background: rgb(47, 47, 47);
+    }
+
+    &:active {
+      background: rgb(53, 53, 53);
+    }
+  }
+
+  &[data-theme="danger"] {
+    background: rgb(88, 5, 5);
+
+    &[data-unclickable="false"] {
+      cursor: pointer;
+
+      &:hover {
+        background: rgb(95, 9, 9);
+      }
+
+      &:active {
+        background: rgb(102, 16, 16);
+      }
+    }
+  }
+}
+
+.rootNoPadding {
+  background: rgb(41, 41, 41);
+  border-radius: 4px;
+  border: 1px solid rgb(52, 52, 52);
+  display: flex;
+  gap: 4px;
+
+  &[data-unclickable="false"] {
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.075);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}

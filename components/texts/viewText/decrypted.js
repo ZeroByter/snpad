@@ -74,7 +74,7 @@ export default function Decrypted({ readOnly, id, text, title, titleHint, titleE
             const response = await rawResponse.json()
 
             if (response.error == null) {
-                router.replace("/")
+                router.replace("/html/")
             } else {
                 setMessage(response.error)
             }

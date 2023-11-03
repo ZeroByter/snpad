@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .buttons {
+    display: flex;
+    gap: 6px;
+  }
+
+  .folders,
+  .texts {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .previousFolder {}
+}

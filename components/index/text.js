@@ -2,8 +2,11 @@ import cryptoJs from "crypto-js";
 import Link from "next/link";
 import { useState } from "react";
 import MoveToFolderButton from "./moveToFolder/moveToFolderButton"
+import { useSSRFetcher } from "../contexts/ssrFetcher";
 
 export default function Text({ text }) {
+    const ssrFetcher = useSSRFetcher();
+
     const [decryptedTitle, setDecryptedTitle] = useState(null)
 
     const handleDecryptTitle = e => {
@@ -23,13 +26,13 @@ export default function Text({ text }) {
                 } else {
                     setDecryptedTitle(decrypted)
                 }
-            } catch { 
+            } catch {
                 promptTitleDecrypt()
             }
         }
     }
 
-    const moveToFolderButton = <MoveToFolderButton isText={true} itemId={text.id} />
+    const moveToFolderButton = <MoveToFolderButton isText={true} itemId={text.id} parentId={ssrFetcher.props.folderId} />
 
     if (text.titleencrypted) {
         let renderTitle
@@ -41,8 +44,8 @@ export default function Text({ text }) {
             renderTitle = decryptedTitle
         }
 
-        return <div><Link href={`/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - {moveToFolderButton}</div>
+        return <div><Link href={`/html/text/${text.id}`}>{renderTitle}</Link> {renderDecryptLink} - {moveToFolderButton}</div>
     } else {
-        return <div><Link href={`/text/${text.id}`}>{text.title}</Link> - {moveToFolderButton}</div>
+        return <div><Link href={`/html/text/${text.id}`}>{text.title}</Link> - {moveToFolderButton}</div>
     }
 }

@@ -1,7 +1,7 @@
 import { getLoginSession } from "../../../serverlib/auth"
 import FoldersSQL from "../../../serverlib/sql-classes/folders"
 
-export default async function handle(req, res){
+export default async function handle(req, res) {
     const session = await getLoginSession(req)
 
     if (session == null) {
@@ -11,14 +11,14 @@ export default async function handle(req, res){
         return
     }
 
-    if(req.query.search == null){
+    if (req.query.search == null) {
         res.send({
             error: "search is missing"
         })
         return
     }
 
-    const folders = await FoldersSQL.getSearch(session.id, req.query.search)
+    const folders = await FoldersSQL.getSearch(session.id, req.query.search, req.query.itemId, req.query.parentId)
 
     res.send({
         error: null,
