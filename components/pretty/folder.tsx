@@ -20,6 +20,7 @@ type Props = {
 
 const Folder: FC<Props> = ({ folder }) => {
   const [folderState, setFolderState] = useState(folder);
+  const [decryptedTitle, setDecryptedTitle] = useState(null);
 
   const actionMenuRef = useRef();
 
@@ -38,8 +39,20 @@ const Folder: FC<Props> = ({ folder }) => {
     }
   };
 
+  let lockedIcon = false;
+
   if (folderState.titleencrypted) {
-    renderTitle = folderState.titlehint;
+    if (decryptedTitle) {
+      renderTitle = decryptedTitle;
+    } else {
+      renderTitle = folderState.titlehint;
+      lockedIcon = true;
+    }
+  } else {
+    renderTitle = folderState.title;
+  }
+
+  if (lockedIcon) {
     renderIcon = (
       <div className={classNames(css.icon, css.lockedFolder)}>
         <FontAwesomeIcon icon={faFolder} />
@@ -47,7 +60,6 @@ const Folder: FC<Props> = ({ folder }) => {
       </div>
     );
   } else {
-    renderTitle = folderState.title;
     renderIcon = (
       <div className={css.icon}>
         <FontAwesomeIcon icon={faFolder} />
@@ -68,7 +80,11 @@ const Folder: FC<Props> = ({ folder }) => {
             itemId={folderState.id}
             parentId={folderState.folderid}
           />
-          <DecryptTitleAction enable={folderState.titleencrypted} />
+          <DecryptTitleAction
+            folder={folderState}
+            enable={folderState.titleencrypted && !decryptedTitle}
+            setDecryptedTitle={setDecryptedTitle}
+          />
           <RenameFolderAction
             existingFolder={folderState}
             setFolderState={setFolderState}
