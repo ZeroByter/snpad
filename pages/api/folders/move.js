@@ -44,6 +44,13 @@ export default async function handle(req, res) {
             })
             return
         }
+
+        if (folder.id == itemId) {
+            res.send({
+                error: "cant move folder into itself"
+            })
+            return;
+        }
     }
 
     const oldFolderId = folder.folderid
