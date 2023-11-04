@@ -5,6 +5,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import Router from "next/router";
 import crypto from "crypto";
+import Input from "@/components/pretty/shared/input";
+import Button from "@/components/pretty/shared/button";
 
 type Inputs = {
   username: string;
@@ -14,11 +16,7 @@ type Inputs = {
 const Login: NextPage = () => {
   const [message, setMessage] = useState<string>();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     data.password = crypto
@@ -34,7 +32,7 @@ const Login: NextPage = () => {
     const response = await rawResponse.text();
 
     if (response == "success") {
-      setMessage("logged in! Redirecting now...");
+      setMessage("Logged in! Redirecting now...");
 
       Router.push("/");
     } else {
@@ -48,7 +46,7 @@ const Login: NextPage = () => {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <input
+            <Input
               {...register("username")}
               autoFocus
               required
@@ -57,7 +55,7 @@ const Login: NextPage = () => {
             />
           </div>
           <div>
-            <input
+            <Input
               {...register("password")}
               required
               type="password"
@@ -65,7 +63,7 @@ const Login: NextPage = () => {
             />
           </div>
           <div>
-            <input type="submit" value="Login" />
+            <Button type="submit">Login</Button>
           </div>
         </form>
       </div>

@@ -4,6 +4,8 @@ import css from "./register.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import Router from "next/router";
+import Input from "@/components/pretty/shared/input";
+import Button from "@/components/pretty/shared/button";
 
 type Inputs = {
   username: string;
@@ -43,7 +45,7 @@ const Login: NextPage = () => {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <input
+            <Input
               {...register("username")}
               required
               type="username"
@@ -52,7 +54,7 @@ const Login: NextPage = () => {
             />
           </div>
           <div>
-            <input
+            <Input
               {...register("password")}
               required
               type="password"
@@ -60,7 +62,7 @@ const Login: NextPage = () => {
             />
           </div>
           <div>
-            <input type="submit" value="Register" />
+            <Button type="submit">Register</Button>
           </div>
         </form>
       </div>
