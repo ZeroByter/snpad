@@ -44,7 +44,7 @@ const Login: NextPage = () => {
     <div className={css.root}>
       <div className={css.title}>Login</div>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className={css.form}>
           <div>
             <Input
               {...register("username")}
