@@ -34,6 +34,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       id,
+      username,
       rawData: text.data,
       rawTitle: text.title,
       titleHint: text.titlehint,
